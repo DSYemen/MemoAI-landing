@@ -21,8 +21,9 @@ const getNavLinks = (lang: string): NavLink[] => [
   { href: '#how-it-works', id: 'how-it-works', label: lang === 'ar' ? 'كيف يعمل' : 'How It Works' },
   { href: '#use-cases', id: 'use-cases', label: lang === 'ar' ? 'حالات الاستخدام' : 'Use Cases' },
   { href: '#products', id: 'products', label: lang === 'ar' ? 'المنتجات' : 'Products' },
-  { href: '#ai-preview', id: 'ai-preview', label: lang === 'ar' ? 'معاينة AI' : 'AI Preview' },
-  { href: '#language-support', id: 'language-support', label: lang === 'ar' ? 'اللغات' : 'Languages' },
+  { href: '#try-ai', id: 'try-ai', label: lang === 'ar' ? 'جرب AI' : 'Try AI' },
+  { href: '#testimonials', id: 'testimonials', label: lang === 'ar' ? 'الشهادات' : 'Testimonials' },
+  { href: '#pricing', id: 'pricing', label: lang === 'ar' ? 'الأسعار' : 'Pricing' },
   { href: '#faq', id: 'faq', label: lang === 'ar' ? 'الأسئلة الشائعة' : 'FAQ' },
 ];
 
@@ -111,8 +112,6 @@ const Navbar: FC = () => {
         if (highestVisibleEntry) {
             currentActive = highestVisibleEntry.target.id;
         } else {
-             // Fallback if no section is "primarily" intersecting according to rootMargin
-             // Check current scroll position to guess.
             const scrollY = window.scrollY;
             const windowHeight = window.innerHeight;
             const docHeight = document.documentElement.scrollHeight;
@@ -129,21 +128,23 @@ const Navbar: FC = () => {
 
     const observerOptions = {
       root: null,
-      rootMargin: `-${64 + 20}px 0px -${window.innerHeight * 0.55}px 0px`, // Top offset by navbar height + margin, active if in top 45% of viewport
+      rootMargin: `-${64 + 20}px 0px -${window.innerHeight * 0.55}px 0px`, 
       threshold: 0.01,
     };
 
     const observer = new IntersectionObserver(observerCallback, observerOptions);
-    sectionElements.forEach(section => observer.observe(section));
+    sectionElements.forEach(section => { if(section) observer.observe(section); });
 
-    // Handle initial active section based on hash or scroll position
     const currentHash = window.location.hash.substring(1);
     let initialSectionSet = false;
     if (currentNavLinks.some(link => link.id === currentHash)) {
         const targetElement = document.getElementById(currentHash);
         if (targetElement) {
-            setTimeout(() => { // Timeout for layout to settle
-                targetElement.scrollIntoView({ behavior: 'auto' });
+            setTimeout(() => { 
+                const navbarHeight = 64;
+                const elementPosition = targetElement.getBoundingClientRect().top + window.scrollY;
+                const offsetPosition = elementPosition - navbarHeight;
+                window.scrollTo({ top: offsetPosition, behavior: 'auto' });
                 setActiveSection(currentHash);
             }, 100);
             initialSectionSet = true;
@@ -173,7 +174,6 @@ const Navbar: FC = () => {
     setDirection(newDirection);
     localStorage.setItem('direction', newDirection);
     document.documentElement.setAttribute('dir', newDirection);
-    // updateTextsAndLinks(newDirection); // Already handled by event listener
     window.dispatchEvent(new CustomEvent('directionChanged', { detail: { direction: newDirection } }));
   };
 
@@ -182,7 +182,6 @@ const Navbar: FC = () => {
     const targetId = href.substring(1);
     const targetElement = document.getElementById(targetId);
     if (targetElement) {
-      // Calculate scroll position considering fixed navbar height (approx 64px)
       const navbarHeight = 64;
       const elementPosition = targetElement.getBoundingClientRect().top + window.scrollY;
       const offsetPosition = elementPosition - navbarHeight;
@@ -191,24 +190,22 @@ const Navbar: FC = () => {
         top: offsetPosition,
         behavior: 'smooth',
       });
-      // Optionally update URL hash (can cause issues with observer if not careful)
-      // window.history.pushState(null, '', href);
-      setActiveSection(targetId); // Optimistically set active section
+      setActiveSection(targetId); 
     }
     setIsMobileMenuOpen(false);
   };
 
 
-  if (!mounted) { // Skeleton for SSR or initial client render before hydration
+  if (!mounted) { 
     return (
-      <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <header className="sticky top-0 z-[60] w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container mx-auto flex h-16 max-w-screen-2xl items-center justify-between px-4 md:px-6">
           <div className="flex items-center gap-2">
             <BrainCircuit className="h-7 w-7 text-primary" />
             <span className="text-xl font-bold text-foreground">MemoAI</span>
           </div>
           <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
-            {getNavLinks('en').map((link) => ( // Use default links for skeleton
+            {getNavLinks('en').map((link) => ( 
               <span key={link.id} className="text-foreground/70">
                 {link.label}
               </span>
@@ -237,14 +234,14 @@ const Navbar: FC = () => {
   }
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-[60] w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-16 max-w-screen-2xl items-center justify-between px-4 md:px-6">
         <Link href="#hero" onClick={(e) => handleNavLinkClick(e, '#hero')} className="flex items-center gap-2" prefetch={false}>
           <BrainCircuit className="h-7 w-7 text-primary" />
           <span className="text-xl font-bold text-foreground">{texts.memoAI}</span>
         </Link>
 
-        <nav className="hidden md:flex items-center gap-x-3 lg:gap-x-4 text-sm">
+        <nav className="hidden md:flex items-center gap-x-2 lg:gap-x-3 text-sm">
           {currentNavLinks.map((link) => (
             <Link
               key={link.id}
@@ -336,3 +333,5 @@ const Navbar: FC = () => {
 };
 
 export default Navbar;
+
+    
