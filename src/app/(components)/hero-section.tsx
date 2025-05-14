@@ -73,7 +73,7 @@ const HeroSection: FC = () => {
   }, []); // initialImageHint is static, so no need to add to dependencies for re-fetching
 
   return (
-    <section id="hero" className="w-full py-20 md:py-32 lg:py-40 bg-gradient-to-br from-background to-muted">
+    <section id="hero" className="w-full py-20 md:py-32 lg:py-40 bg-gradient-to-br from-primary/10 via-background to-accent/5">
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid gap-10 md:grid-cols-2 md:items-center">
           <div className={`space-y-6 text-center ${direction === 'rtl' ? 'md:text-right' : 'md:text-left'}`}>
@@ -99,7 +99,8 @@ const HeroSection: FC = () => {
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 800px"
               className="object-cover transition-transform duration-500 group-hover:scale-105"
-              priority={heroImageUrl.startsWith('https://placehold.co')} // Only prioritize initial placeholder
+              priority={heroImageUrl.startsWith('https://placehold.co')} 
+              data-ai-hint={initialImageHint}
             />
           </div>
         </div>

@@ -2,9 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
-}
+/* Removed explicit body font-family, Tailwind will handle it via var(--font-cairo) */
 
 @layer base {
   :root {
@@ -105,6 +103,7 @@ body {
   body {
     @apply bg-background text-foreground;
     @apply selection:bg-primary selection:text-primary-foreground;
+    font-family: var(--font-cairo), system-ui, sans-serif; /* Ensure Cairo is primary */
   }
 }
 

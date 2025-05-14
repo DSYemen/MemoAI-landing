@@ -62,7 +62,7 @@ const HowItWorksSection: FC = () => {
   }, []);
 
   return (
-    <section id="how-it-works" className="w-full py-20 md:py-28 lg:py-32 bg-gradient-to-br from-muted to-background">
+    <section id="how-it-works" className="w-full py-20 md:py-28 lg:py-32 bg-gradient-to-tr from-accent/10 via-background to-primary/5">
       <div className="container mx-auto px-4 md:px-6">
         <div className="mb-12 md:mb-16 text-center">
           <h2 className="text-3xl font-bold tracking-tight text-primary sm:text-4xl md:text-5xl">

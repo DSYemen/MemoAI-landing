@@ -11,8 +11,11 @@ export default {
   theme: {
   	extend: {
       fontFamily: {
-        sans: ["var(--font-geist-sans)", ...fontFamily.sans],
-        mono: ["var(--font-geist-mono)", ...fontFamily.mono],
+        // Updated sans-serif to use Cairo
+        sans: ["var(--font-cairo)", ...fontFamily.sans],
+        // Mono can remain Geist Mono or fallback to default if Cairo doesn't have a good mono
+        // For simplicity, let's remove Geist Mono if not explicitly needed elsewhere.
+        // If a specific mono font is desired, it should be added like Cairo.
       },
   		colors: {
   			background: 'hsl(var(--background))',

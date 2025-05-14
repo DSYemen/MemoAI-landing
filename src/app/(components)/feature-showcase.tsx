@@ -7,7 +7,7 @@ import FeatureCard from './feature-card';
 import { Brain, Languages as LucideLanguages, Zap, Users } from 'lucide-react';
 
 interface Feature {
-  icon: FC<any>; // Use FC<any> for Lucide icons
+  icon: FC<any>; 
   title: string;
   description: string;
 }
@@ -60,14 +60,14 @@ const FeatureShowcase: FC = () => {
       });
     };
 
-    handleDirectionChange(); // Initial call
+    handleDirectionChange(); 
     window.addEventListener('directionChanged', handleDirectionChange);
     return () => window.removeEventListener('directionChanged', handleDirectionChange);
   }, []);
 
 
   return (
-    <section id="features" className="w-full py-20 md:py-28 lg:py-32 bg-background">
+    <section id="features" className="w-full py-20 md:py-28 lg:py-32 bg-gradient-to-bl from-background via-muted/50 to-secondary/10">
       <div className="container mx-auto px-4 md:px-6">
         <div className="mb-12 md:mb-16 text-center">
           <h2 className="text-3xl font-bold tracking-tight text-primary sm:text-4xl md:text-5xl">

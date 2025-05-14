@@ -129,7 +129,7 @@ const AiAssistantPreview: FC = () => {
   };
 
   return (
-    <section id="ai-preview" className="w-full py-20 md:py-28 lg:py-32 bg-muted">
+    <section id="ai-preview" className="w-full py-20 md:py-28 lg:py-32 bg-gradient-to-b from-muted via-background to-muted/60">
       <div className="container mx-auto px-4 md:px-6">
         <div className="mb-12 md:mb-16 text-center">
           <h2 className="text-3xl font-bold tracking-tight text-primary sm:text-4xl md:text-5xl">
@@ -140,7 +140,7 @@ const AiAssistantPreview: FC = () => {
           </p>
         </div>
 
-        <Card className="max-w-2xl mx-auto shadow-xl animate-fadeIn">
+        <Card className="max-w-2xl mx-auto shadow-xl animate-fadeIn bg-card/90 backdrop-blur-sm">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-2xl">
               <Wand2 className="h-6 w-6 text-primary" />
@@ -172,7 +172,7 @@ const AiAssistantPreview: FC = () => {
             </Button>
 
             {summary && (
-              <div className="mt-6 p-4 border rounded-md bg-background space-y-2 animate-fadeIn">
+              <div className="mt-6 p-4 border rounded-md bg-background/70 space-y-2 animate-fadeIn">
                 <h3 className="text-lg font-semibold text-primary">{texts.summaryTitle}</h3>
                 <p className="text-foreground/90 whitespace-pre-wrap">{summary}</p>
               </div>

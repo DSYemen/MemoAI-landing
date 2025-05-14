@@ -12,13 +12,12 @@ interface UseCaseContent {
   imageHint: string;
   title: string;
   description: string;
-  imageUrl?: string; // Will store the AI-generated image URL
+  imageUrl?: string; 
 }
 
 interface UseCasesTexts {
   mainTitle: string;
   mainSubtitle: string;
-  // cases are now part of a different state
 }
 
 const getBaseUseCases = (lang: string): Omit<UseCaseContent, 'imageUrl'>[] => [
@@ -57,7 +56,6 @@ const UseCasesSection: FC = () => {
 
   const fetchAndSetImages = useCallback(async (currentLang: string) => {
     const baseCases = getBaseUseCases(currentLang);
-    // Set initial cases with placeholder URLs
     setUseCasesContent(baseCases.map(uc => ({ 
         ...uc, 
         imageUrl: `https://placehold.co/600x400/180A4B/F0F0F0/png?text=Loading:${uc.title.substring(0,8)}...` 
@@ -102,7 +100,7 @@ const UseCasesSection: FC = () => {
   }, [fetchAndSetImages]);
 
   return (
-    <section id="use-cases" className="w-full py-20 md:py-28 lg:py-32 bg-background">
+    <section id="use-cases" className="w-full py-20 md:py-28 lg:py-32 bg-gradient-to-tl from-background via-muted/50 to-secondary/5">
       <div className="container mx-auto px-4 md:px-6">
         <div className="mb-12 md:mb-16 text-center">
           <h2 className="text-3xl font-bold tracking-tight text-primary sm:text-4xl md:text-5xl">
@@ -122,6 +120,7 @@ const UseCasesSection: FC = () => {
                   fill
                   sizes="(max-width: 768px) 100vw, 50vw"
                   className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  data-ai-hint={useCase.imageHint}
                 />
               </div>
               <CardHeader className="flex flex-row items-start gap-3 pt-4">

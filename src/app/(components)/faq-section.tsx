@@ -66,7 +66,7 @@ const FaqSection: FC = () => {
   }, []);
 
   return (
-    <section id="faq" className="w-full py-20 md:py-28 lg:py-32 bg-gradient-to-bl from-muted to-background">
+    <section id="faq" className="w-full py-20 md:py-28 lg:py-32 bg-gradient-to-br from-accent/5 via-background to-secondary/10">
       <div className="container mx-auto px-4 md:px-6">
         <div className="mb-12 md:mb-16 text-center">
           <HelpCircle className="h-12 w-12 text-primary mx-auto mb-4" />

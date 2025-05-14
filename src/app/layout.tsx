@@ -1,16 +1,13 @@
 import type {Metadata} from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
+import { Cairo } from 'next/font/google'; // Updated import
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
-});
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
+// Updated font setup for Cairo
+const cairoFont = Cairo({
+  variable: '--font-cairo',
+  subsets: ['arabic', 'latin'], // Added Arabic subset
+  display: 'swap', // Ensures text is visible while font loads
 });
 
 export const metadata: Metadata = {
@@ -25,7 +22,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      {/* Updated body className to use Cairo font variable */}
+      <body className={`${cairoFont.variable} antialiased`}>
         {children}
         <Toaster />
       </body>
