@@ -4,11 +4,12 @@
 import type { FC } from 'react';
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { Building } from 'lucide-react'; // Changed from Briefcase to Building
+import { Building } from 'lucide-react';
 
 interface Client {
-  name: string;
-  logoUrl: string; // Placeholder URL
+  originalName: string; // To be used for unique key
+  name: string; // Display name, can be translated
+  logoUrl: string; 
   imageHint: string;
 }
 
@@ -18,20 +19,20 @@ interface FeaturedClientsSectionTexts {
   clients: Client[];
 }
 
-const getBaseClients = (lang: string): Client[] => [
-  { name: 'Innovate Corp', logoUrl: 'https://placehold.co/160x80/FFFFFF/1A093D/png?text=Client+1', imageHint: 'innovate corp logo modern' },
-  { name: 'Synergy Solutions', logoUrl: 'https://placehold.co/160x80/FFFFFF/0D1B3E/png?text=Client+2', imageHint: 'synergy solutions logo professional' },
-  { name: 'Apex Enterprises', logoUrl: 'https://placehold.co/160x80/FFFFFF/102A2A/png?text=Client+3', imageHint: 'apex enterprises logo strong' },
-  { name: 'Momentum Dynamics', logoUrl: 'https://placehold.co/160x80/FFFFFF/2E0F2E/png?text=Client+4', imageHint: 'momentum dynamics logo dynamic' },
-  { name: 'Quantum Leap Inc.', logoUrl: 'https://placehold.co/160x80/FFFFFF/301A1A/png?text=Client+5', imageHint: 'quantum leap logo futuristic' },
-  { name: 'Starlight Group', logoUrl: 'https://placehold.co/160x80/FFFFFF/222244/png?text=Client+6', imageHint: 'starlight group logo elegant' },
+const getBaseClients = (): Omit<Client, 'name'>[] => [
+  { originalName: 'Innovate Corp', logoUrl: 'https://placehold.co/160x80/FFFFFF/1A093D/png?text=Client+1', imageHint: 'innovate corp logo modern' },
+  { originalName: 'Synergy Solutions', logoUrl: 'https://placehold.co/160x80/FFFFFF/0D1B3E/png?text=Client+2', imageHint: 'synergy solutions logo professional' },
+  { originalName: 'Apex Enterprises', logoUrl: 'https://placehold.co/160x80/FFFFFF/102A2A/png?text=Client+3', imageHint: 'apex enterprises logo strong' },
+  { originalName: 'Momentum Dynamics', logoUrl: 'https://placehold.co/160x80/FFFFFF/2E0F2E/png?text=Client+4', imageHint: 'momentum dynamics logo dynamic' },
+  { originalName: 'Quantum Leap Inc.', logoUrl: 'https://placehold.co/160x80/FFFFFF/301A1A/png?text=Client+5', imageHint: 'quantum leap logo futuristic' },
+  { originalName: 'Starlight Group', logoUrl: 'https://placehold.co/160x80/FFFFFF/222244/png?text=Client+6', imageHint: 'starlight group logo elegant' },
 ];
 
 const FeaturedClientsSection: FC = () => {
   const [texts, setTexts] = useState<FeaturedClientsSectionTexts>({
     mainTitle: 'Trusted by Leading Companies',
     mainSubtitle: 'Join a growing community of innovative businesses leveraging MemoAI to achieve their goals.',
-    clients: getBaseClients('en'),
+    clients: getBaseClients().map(c => ({...c, name: c.originalName})), // Initialize with originalName as name
   });
    const [currentDirection, setCurrentDirection] = useState('ltr');
 
@@ -40,13 +41,19 @@ const FeaturedClientsSection: FC = () => {
       const dir = document.documentElement.dir || 'ltr';
       setCurrentDirection(dir);
       const lang = dir === 'rtl' ? 'ar' : 'en';
+      
+      const baseClients = getBaseClients(); // Get base clients with originalName
+
       setTexts({
         mainTitle: lang === 'ar' ? 'يثق بنا كبرى الشركات' : 'Trusted by Leading Companies',
         mainSubtitle: lang === 'ar' ? 'انضم إلى مجتمع متنامٍ من الشركات المبتكرة التي تستفيد من MemoAI لتحقيق أهدافها.' : 'Join a growing community of innovative businesses leveraging MemoAI to achieve their goals.',
-        clients: getBaseClients(lang).map(c => ({ ...c, name: lang === 'ar' ? `عميل ${c.name.split(" ")[1]?.charAt(0) || 'X'}` : c.name })), // Simplified translation for demo
+        clients: baseClients.map(c => ({ 
+          ...c, 
+          name: lang === 'ar' ? `عميل ${c.originalName.split(" ")[1]?.charAt(0) || c.originalName.charAt(0) || 'X'}` : c.originalName 
+        })), 
       });
     };
-    handleDirectionChange(); // Initial call
+    handleDirectionChange(); 
     window.addEventListener('directionChanged', handleDirectionChange);
     return () => window.removeEventListener('directionChanged', handleDirectionChange);
   }, []);
@@ -65,10 +72,10 @@ const FeaturedClientsSection: FC = () => {
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 gap-x-8 gap-y-10 items-center max-w-4xl mx-auto">
           {texts.clients.map((client) => (
-            <div key={client.name} className="flex justify-center items-center p-4 animate-fadeIn group">
+            <div key={client.originalName} className="flex justify-center items-center p-4 animate-fadeIn group"> {/* Use originalName for key */}
               <Image
                 src={client.logoUrl}
-                alt={client.name}
+                alt={client.name} {/* Display name for alt text is fine */}
                 width={160}
                 height={80}
                 className="object-contain transition-opacity duration-300 group-hover:opacity-100 opacity-60"
@@ -83,5 +90,3 @@ const FeaturedClientsSection: FC = () => {
 };
 
 export default FeaturedClientsSection;
-
-    

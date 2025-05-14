@@ -4,11 +4,12 @@
 import type { FC } from 'react';
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { Handshake } from 'lucide-react'; // Changed from Share2 to Handshake
+import { Handshake } from 'lucide-react'; 
 
 interface Partner {
-  name: string;
-  logoUrl: string; // Placeholder URL
+  originalName: string; // To be used for unique key
+  name: string; // Display name, can be translated
+  logoUrl: string; 
   imageHint: string;
 }
 
@@ -18,20 +19,20 @@ interface PartnersSectionTexts {
   partners: Partner[];
 }
 
-const getBasePartners = (lang: string): Partner[] => [
-  { name: 'Tech Innovators Inc.', logoUrl: 'https://placehold.co/150x75/FFFFFF/1A093D/png?text=Partner+A', imageHint: 'modern tech company logo blue' },
-  { name: 'Global Solutions Ltd.', logoUrl: 'https://placehold.co/150x75/FFFFFF/0D1B3E/png?text=Partner+B', imageHint: 'global solutions logo globe' },
-  { name: 'AI Pioneers Co.', logoUrl: 'https://placehold.co/150x75/FFFFFF/102A2A/png?text=Partner+C', imageHint: 'ai pioneers logo brain' },
-  { name: 'Future Systems Group', logoUrl: 'https://placehold.co/150x75/FFFFFF/2E0F2E/png?text=Partner+D', imageHint: 'future systems logo abstract' },
-  { name: 'Creative Labs LLC', logoUrl: 'https://placehold.co/150x75/FFFFFF/301A1A/png?text=Partner+E', imageHint: 'creative labs logo colorful' },
-  { name: 'Data Corp United', logoUrl: 'https://placehold.co/150x75/FFFFFF/222244/png?text=Partner+F', imageHint: 'data corp logo server' },
+const getBasePartners = (): Omit<Partner, 'name'>[] => [ // Returns base structure without translated name initially
+  { originalName: 'Tech Innovators Inc.', logoUrl: 'https://placehold.co/150x75/FFFFFF/1A093D/png?text=Partner+A', imageHint: 'modern tech company logo blue' },
+  { originalName: 'Global Solutions Ltd.', logoUrl: 'https://placehold.co/150x75/FFFFFF/0D1B3E/png?text=Partner+B', imageHint: 'global solutions logo globe' },
+  { originalName: 'AI Pioneers Co.', logoUrl: 'https://placehold.co/150x75/FFFFFF/102A2A/png?text=Partner+C', imageHint: 'ai pioneers logo brain' },
+  { originalName: 'Future Systems Group', logoUrl: 'https://placehold.co/150x75/FFFFFF/2E0F2E/png?text=Partner+D', imageHint: 'future systems logo abstract' },
+  { originalName: 'Creative Labs LLC', logoUrl: 'https://placehold.co/150x75/FFFFFF/301A1A/png?text=Partner+E', imageHint: 'creative labs logo colorful' },
+  { originalName: 'Data Corp United', logoUrl: 'https://placehold.co/150x75/FFFFFF/222244/png?text=Partner+F', imageHint: 'data corp logo server' },
 ];
 
 const PartnersSection: FC = () => {
   const [texts, setTexts] = useState<PartnersSectionTexts>({
     mainTitle: 'Our Valued Partners',
     mainSubtitle: 'Collaborating with leading organizations to drive innovation and deliver exceptional value.',
-    partners: getBasePartners('en'),
+    partners: getBasePartners().map(p => ({...p, name: p.originalName})), // Initialize with originalName as name
   });
    const [currentDirection, setCurrentDirection] = useState('ltr');
 
@@ -40,13 +41,19 @@ const PartnersSection: FC = () => {
       const dir = document.documentElement.dir || 'ltr';
       setCurrentDirection(dir);
       const lang = dir === 'rtl' ? 'ar' : 'en';
+      
+      const basePartners = getBasePartners(); // Get base partners with originalName
+
       setTexts({
         mainTitle: lang === 'ar' ? 'شركاؤنا الكرام' : 'Our Valued Partners',
         mainSubtitle: lang === 'ar' ? 'نتعاون مع المؤسسات الرائدة لدفع عجلة الابتكار وتقديم قيمة استثنائية.' : 'Collaborating with leading organizations to drive innovation and deliver exceptional value.',
-        partners: getBasePartners(lang).map(p => ({ ...p, name: lang === 'ar' ? `شريك ${p.name.split(" ")[1]?.charAt(0) || 'X'}` : p.name })), // Simplified translation for demo
+        partners: basePartners.map(p => ({ 
+          ...p, 
+          name: lang === 'ar' ? `شريك ${p.originalName.split(" ")[1]?.charAt(0) || p.originalName.charAt(0) || 'X'}` : p.originalName 
+        })),
       });
     };
-    handleDirectionChange(); // Initial call
+    handleDirectionChange(); 
     window.addEventListener('directionChanged', handleDirectionChange);
     return () => window.removeEventListener('directionChanged', handleDirectionChange);
   }, []);
@@ -65,10 +72,10 @@ const PartnersSection: FC = () => {
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-8 items-center">
           {texts.partners.map((partner) => (
-            <div key={partner.name} className="flex justify-center items-center p-4 animate-fadeIn group">
+            <div key={partner.originalName} className="flex justify-center items-center p-4 animate-fadeIn group"> {/* Use originalName for key */}
               <Image
                 src={partner.logoUrl}
-                alt={partner.name}
+                alt={partner.name} {/* Display name for alt text is fine */}
                 width={150}
                 height={75}
                 className="object-contain transition-transform duration-300 group-hover:scale-110 filter grayscale hover:grayscale-0 opacity-70 hover:opacity-100"
@@ -83,5 +90,3 @@ const PartnersSection: FC = () => {
 };
 
 export default PartnersSection;
-
-    
