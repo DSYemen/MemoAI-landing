@@ -107,19 +107,19 @@ const getTexts = (lang: string): TryAITexts => ({
   tabs: {
     textAnalyzerTitle: lang === 'ar' ? 'محلل النصوص' : 'Text Analyzer',
     textAnalyzerDescription: lang === 'ar' ? 'لخص وافهم أي نص.' : 'Summarize and understand any text.',
-    textAnalyzerServiceDescription: lang === 'ar' ? 'محلل النصوص الذكي من MemoAI يستخدم قدرات معالجة اللغة الطبيعية المتقدمة لتقديم ملخصات دقيقة وشاملة للمستندات الطويلة، المقالات، أو أي محتوى نصي. يساعدك على استخلاص الأفكار الرئيسية بسرعة وتوفير الوقت الثمين.' : 'MemoAI\'s intelligent Text Analyzer uses advanced natural language processing to provide accurate and comprehensive summaries of long documents, articles, or any text content. It helps you quickly extract key ideas and save valuable time.',
+    textAnalyzerServiceDescription: lang === 'ar' ? 'استكشف الرؤى من نصوصك مع محلل النصوص الذكي من MemoAI. تستخدم هذه الأداة القوية معالجة متقدمة للغة الطبيعية لتحليل وتلخيص محتواك. يمكنك لصق المقالات، ملاحظات الاجتماعات، أوصاف المنتجات، أو أي نص طويل آخر، وسيقدم لك ذكاؤنا الاصطناعي ملخصًا موجزًا، يحدد الموضوعات الرئيسية، ويساعدك على فهم الرسالة الأساسية في ثوانٍ. هذه الميزة مثالية للطلاب والباحثين والمحترفين الذين يحتاجون إلى معالجة كميات كبيرة من المعلومات بكفاءة وسرعة.' : 'Unlock insights from your text with MemoAI\'s intelligent Text Analyzer. This powerful tool uses advanced Natural Language Processing to dissect and summarize your content. Paste in articles, meeting notes, product descriptions, or any lengthy text, and our AI will provide you with a concise summary, identify key themes, and help you grasp the core message in seconds. It\'s perfect for students, researchers, and professionals who need to process large amounts of information efficiently.',
     textAnalyzerFormTitle: lang === 'ar' ? 'جرّب محلل النصوص' : 'Try the Text Analyzer',
-    textAnalyzerFormDescription: lang === 'ar' ? 'الصق المحتوى الخاص بك أدناه ودع الذكاء الاصطناعي يقدم ملخصًا موجزًا.' : 'Paste your content below and let our AI provide a concise summary.',
+    textAnalyzerFormDescription: lang === 'ar' ? 'ببساطة، الصق المحتوى الخاص بك في مربع النص أدناه. سيقوم الذكاء الاصطناعي بتحليله وتقديم ملخص واضح ومختصر يبرز النقاط الرئيسية. اضغط على "تحليل بواسطة AI" للبدء وشاهد كيف يمكن لـ MemoAI تبسيط المعلومات المعقدة لك.' : 'Simply paste your content into the text area below. Our AI will then analyze it and generate a clear, brief summary highlighting the main points. Click \'Analyze with AI\' to begin and see how MemoAI can simplify complex information for you.',
     translatorTitle: lang === 'ar' ? 'مترجم اللغات' : 'Language Translator',
     translatorDescription: lang === 'ar' ? 'ترجم النصوص إلى لغات متعددة.' : 'Translate text into multiple languages.',
-    translatorServiceDescription: lang === 'ar' ? 'اكسر حواجز اللغة مع مترجم MemoAI الفوري. يدعم مجموعة واسعة من اللغات، ويوفر ترجمات دقيقة وسياقية لمساعدتك على التواصل بفعالية مع جمهور عالمي أو فهم المحتوى الأجنبي بسهولة.' : 'Break language barriers with MemoAI\'s instant translator. It supports a wide range of languages, providing accurate and contextual translations to help you communicate effectively with a global audience or understand foreign content easily.',
+    translatorServiceDescription: lang === 'ar' ? 'تجاوز حواجز اللغة فورًا مع مترجم اللغات متعدد الاستخدامات من MemoAI. مدعومًا بأحدث تقنيات الترجمة الآلية العصبية، فإنه يوفر ترجمات دقيقة ومناسبة للسياق عبر مجموعة واسعة من اللغات. سواء كنت تتواصل مع عملاء دوليين، أو تقرأ أبحاثًا أجنبية، أو تتعلم لغة جديدة، يضمن مترجمنا فهم رسالتك بوضوح. استمتع بتجربة ترجمة سلسة وفعالة تمكنك من التفاعل بثقة على نطاق عالمي.' : 'Break down language barriers instantly with MemoAI\'s versatile Language Translator. Powered by cutting-edge neural machine translation, it provides accurate and context-aware translations across a wide array of languages. Whether you\'re communicating with international clients, reading foreign research papers, or learning a new language, our translator ensures your message is understood clearly. Experience seamless and effective translation that empowers you to engage confidently on a global scale.',
     translatorFormTitle: lang === 'ar' ? 'جرّب المترجم' : 'Try the Translator',
-    translatorFormDescription: lang === 'ar' ? 'أدخل نصًا واختر لغة لترى ترجمة الذكاء الاصطناعي الخاصة بنا أثناء العمل.' : 'Enter text and choose a language to see our AI translation in action.',
+    translatorFormDescription: lang === 'ar' ? 'اكتب أو الصق النص الذي ترغب في ترجمته في الحقل أدناه. بعد ذلك، اختر لغتك الهدف من القائمة المنسدلة التي تضم العديد من اللغات الشائعة. اضغط على "ترجمة" لرؤية قدرات الترجمة الفورية لـ MemoAI أثناء العمل.' : 'Type or paste the text you wish to translate into the field below. Then, select your target language from the dropdown list featuring many popular languages. Click \'Translate\' to see MemoAI\'s instant AI translation capabilities in action.',
     imageGeneratorTitle: lang === 'ar' ? 'مولد الصور' : 'Image Generator',
     imageGeneratorDescription: lang === 'ar' ? 'حول أفكارك النصية إلى صور مذهلة.' : 'Turn your text ideas into stunning visuals.',
-    imageGeneratorServiceDescription: lang === 'ar' ? 'أطلق العنان لإبداعك مع مولد الصور بالذكاء الاصطناعي من MemoAI. فقط قم بوصف الصورة التي تتخيلها، وسيقوم نموذجنا بتحويل كلماتك إلى عمل فني بصري فريد. مثالي للمصممين، المسوقين، أو أي شخص يحتاج إلى صور مخصصة بسرعة.' : 'Unleash your creativity with MemoAI\'s AI Image Generator. Simply describe the image you envision, and our model will transform your words into a unique visual masterpiece. Perfect for designers, marketers, or anyone needing custom visuals quickly.',
+    imageGeneratorServiceDescription: lang === 'ar' ? 'حوّل خيالك إلى واقع مع مولد الصور بالذكاء الاصطناعي من MemoAI. فقط قم بوصف الصورة التي تتخيلها بتفصيل، وسيقوم نموذجنا التوليدي المتقدم بتحويل كلماتك إلى عمل فني بصري فريد ومبتكر. هذه الأداة مثالية لمنشئي المحتوى، المسوقين، المصممين، أو أي شخص يتطلع إلى إضافة شرارة بصرية إبداعية إلى مشاريعه. كلما كان وصفك أكثر تفصيلاً وغنىً بالكلمات المفتاحية، كانت النتيجة أكثر دقة وروعة!' : 'Bring your imagination to life with MemoAI\'s AI Image Generator. Transform your textual ideas into stunning, unique visuals. Describe any scene, concept, or character in detail, and our advanced generative model will craft a custom image based on your prompt. Ideal for content creators, marketers, designers, or anyone looking to add a creative visual spark to their projects. The more detailed and descriptive your prompt, the better and more accurate the resulting image will be!',
     imageGeneratorFormTitle: lang === 'ar' ? 'جرّب مولد الصور' : 'Try the Image Generator',
-    imageGeneratorFormDescription: lang === 'ar' ? 'اكتب وصفًا للصورة التي تريد إنشاءها.' : 'Write a prompt for the image you want to generate.',
+    imageGeneratorFormDescription: lang === 'ar' ? 'اكتب وصفًا تفصيليًا للصورة التي تريد إنشاءها في حقل الإدخال. كن محددًا أو مبدعًا كما تشاء! على سبيل المثال، جرب: "رائد فضاء يركب حصانًا على سطح القمر بخلفية سديم ملون" أو "مقهى دافئ ومريح في يوم ممطر، مرئي من خلال نافذة ضبابية". ثم اضغط على "إنشاء صورة" ودع الذكاء الاصطناعي يبهرك.' : 'Describe the image you want to create in detail within the input field. Be as specific or as imaginative as you like! For example, try: "An astronaut riding a horse on the moon with a colorful nebula background" or "A cozy, warm coffee shop on a rainy day, viewed through a misty window." Then click \'Generate Image\' and let our AI amaze you.',
   },
   analyzerTextareaPlaceholder: lang === 'ar' ? 'أدخل النص هنا... على سبيل المثال، صف فكرة تطبيق جديدة أو الصق ملاحظات اجتماع.' : 'Enter your text here... For example, describe a new app idea or paste meeting notes.',
   analyzerButtonText: lang === 'ar' ? 'تحليل بواسطة AI' : 'Analyze with AI',
@@ -154,7 +154,7 @@ const getTexts = (lang: string): TryAITexts => ({
   imageGenImageGeneratedDescription: lang === 'ar' ? "تم إنشاء صورتك بنجاح." : "Your image has been successfully generated.",
   imageGenErrorTitle: lang === 'ar' ? "خطأ في إنشاء الصورة" : "Image Generation Error",
   imageGenErrorDescription: lang === 'ar' ? "فشل في إنشاء الصورة. حاول مرة اخرى." : "Failed to generate image. Please try again.",
-  demoDisclaimer: lang === 'ar' ? "* ردود ونتائج الذكاء الاصطناعي هي لأغراض توضيحية وقد تختلف." : "* AI responses and results are for demonstration purposes and may vary."
+  demoDisclaimer: lang === 'ar' ? "* ردود ونتائج الذكاء الاصطناعي هي لأغراض توضيحية وقد تختلف عن النتائج الفعلية في المنتج الكامل." : "* AI responses and results are for demonstration purposes and may vary from actual outcomes in the full product."
 });
 
 const TryAISection: FC = () => {
@@ -203,6 +203,7 @@ const TryAISection: FC = () => {
       } catch (error) {
         setAnalyzerSummary(null);
         toast({ title: texts.analyzerErrorTitle, description: texts.analyzerErrorDescription, variant: "destructive" });
+        console.error("Analyzer error:", error);
       }
     });
   };
@@ -224,6 +225,7 @@ const TryAISection: FC = () => {
       } catch (error) {
         setTranslatorTranslatedText(null);
         toast({ title: texts.translatorErrorTitle, description: texts.translatorErrorDescription, variant: "destructive" });
+        console.error("Translator error:", error);
       }
     });
   };
@@ -242,6 +244,7 @@ const TryAISection: FC = () => {
       } catch (error) {
         setImageGenImageUrl(null);
         toast({ title: texts.imageGenErrorTitle, description: texts.imageGenErrorDescription, variant: "destructive" });
+        console.error("Image Gen error:", error);
       }
     });
   };
@@ -285,8 +288,8 @@ const TryAISection: FC = () => {
             <Card className="overflow-hidden shadow-xl bg-card/80 backdrop-blur-md border-primary/20 animate-fadeIn">
               <div className="grid md:grid-cols-2 items-start">
                 <div className={`p-6 md:p-8 lg:p-10 flex flex-col justify-center h-full bg-muted/30 ${currentDirection === 'rtl' ? 'md:border-l' : 'md:border-r'} border-border/50`}>
-                  <h3 className="text-2xl font-semibold text-primary mb-3">{texts.tabs[tabDetails[0].titleKey]?.serviceDescription}</h3>
-                  <p className="text-foreground/80 leading-relaxed">{texts.tabs[tabDetails[0].serviceDescriptionKey]?.serviceDescription}</p>
+                  <h3 className="text-2xl font-semibold text-primary mb-3">{texts.tabs[tabDetails[0].titleKey]?.title}</h3>
+                  <p className="text-foreground/80 leading-relaxed text-base">{texts.tabs[tabDetails[0].serviceDescriptionKey]?.serviceDescription}</p>
                 </div>
                 <div className={`p-6 md:p-8 lg:p-10`}>
                   <CardHeader className="p-0 mb-4">
@@ -294,7 +297,7 @@ const TryAISection: FC = () => {
                       <Wand2 className="h-6 w-6 text-primary" />
                       {texts.tabs[tabDetails[0].formTitleKey]?.formTitle}
                     </CardTitle>
-                    <CardDescription>
+                    <CardDescription className="text-base">
                       {texts.tabs[tabDetails[0].formDescriptionKey]?.formDescription}
                     </CardDescription>
                   </CardHeader>
@@ -318,7 +321,7 @@ const TryAISection: FC = () => {
                     {analyzerSummary && (
                       <div className="mt-6 p-4 border rounded-md bg-background/70 space-y-2 animate-fadeIn">
                         <h3 className="text-lg font-semibold text-primary">{texts.analyzerSummaryTitle}</h3>
-                        <p className="text-foreground/90 whitespace-pre-wrap">{analyzerSummary}</p>
+                        <p className="text-foreground/90 whitespace-pre-wrap text-base">{analyzerSummary}</p>
                       </div>
                     )}
                   </CardContent>
@@ -332,8 +335,8 @@ const TryAISection: FC = () => {
             <Card className="overflow-hidden shadow-xl bg-card/80 backdrop-blur-md border-primary/20 animate-fadeIn">
               <div className="grid md:grid-cols-2 items-start">
                 <div className={`p-6 md:p-8 lg:p-10 flex flex-col justify-center h-full bg-muted/30 ${currentDirection === 'rtl' ? 'md:border-l' : 'md:border-r'} border-border/50`}>
-                   <h3 className="text-2xl font-semibold text-primary mb-3">{texts.tabs[tabDetails[1].titleKey]?.serviceDescription}</h3>
-                   <p className="text-foreground/80 leading-relaxed">{texts.tabs[tabDetails[1].serviceDescriptionKey]?.serviceDescription}</p>
+                   <h3 className="text-2xl font-semibold text-primary mb-3">{texts.tabs[tabDetails[1].titleKey]?.title}</h3>
+                   <p className="text-foreground/80 leading-relaxed text-base">{texts.tabs[tabDetails[1].serviceDescriptionKey]?.serviceDescription}</p>
                 </div>
                 <div className={`p-6 md:p-8 lg:p-10`}>
                   <CardHeader className="p-0 mb-4">
@@ -341,7 +344,7 @@ const TryAISection: FC = () => {
                       <Languages className="h-6 w-6 text-primary" />
                       {texts.tabs[tabDetails[1].formTitleKey]?.formTitle}
                     </CardTitle>
-                    <CardDescription>
+                    <CardDescription className="text-base">
                        {texts.tabs[tabDetails[1].formDescriptionKey]?.formDescription}
                     </CardDescription>
                   </CardHeader>
@@ -391,8 +394,8 @@ const TryAISection: FC = () => {
             <Card className="overflow-hidden shadow-xl bg-card/80 backdrop-blur-md border-primary/20 animate-fadeIn">
               <div className="grid md:grid-cols-2 items-start">
                  <div className={`p-6 md:p-8 lg:p-10 flex flex-col justify-center h-full bg-muted/30 ${currentDirection === 'rtl' ? 'md:border-l' : 'md:border-r'} border-border/50`}>
-                   <h3 className="text-2xl font-semibold text-primary mb-3">{texts.tabs[tabDetails[2].titleKey]?.serviceDescription}</h3>
-                   <p className="text-foreground/80 leading-relaxed">{texts.tabs[tabDetails[2].serviceDescriptionKey]?.serviceDescription}</p>
+                   <h3 className="text-2xl font-semibold text-primary mb-3">{texts.tabs[tabDetails[2].titleKey]?.title}</h3>
+                   <p className="text-foreground/80 leading-relaxed text-base">{texts.tabs[tabDetails[2].serviceDescriptionKey]?.serviceDescription}</p>
                 </div>
                 <div className={`p-6 md:p-8 lg:p-10`}>
                   <CardHeader className="p-0 mb-4">
@@ -400,7 +403,7 @@ const TryAISection: FC = () => {
                       <ImageIcon className="h-6 w-6 text-primary" />
                        {texts.tabs[tabDetails[2].formTitleKey]?.formTitle}
                     </CardTitle>
-                    <CardDescription>
+                    <CardDescription className="text-base">
                        {texts.tabs[tabDetails[2].formDescriptionKey]?.formDescription}
                     </CardDescription>
                   </CardHeader>
@@ -444,5 +447,3 @@ const TryAISection: FC = () => {
 };
 
 export default TryAISection;
-
-    
