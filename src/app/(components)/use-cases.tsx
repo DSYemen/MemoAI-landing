@@ -1,50 +1,48 @@
+
 "use client";
 import type { FC } from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { BookOpen, Briefcase, Lightbulb, Users } from 'lucide-react';
+import { generateImage } from '@/ai/flows/generate-image-flow';
 
-interface UseCase {
+interface UseCaseContent {
   icon: FC<any>;
-  imagePlaceholder: string;
   imageHint: string;
   title: string;
   description: string;
+  imageUrl?: string; // Will store the AI-generated image URL
 }
 
 interface UseCasesTexts {
   mainTitle: string;
   mainSubtitle: string;
-  cases: UseCase[];
+  // cases are now part of a different state
 }
 
-const getUseCases = (lang: string): UseCase[] => [
+const getBaseUseCases = (lang: string): Omit<UseCaseContent, 'imageUrl'>[] => [
   {
     icon: BookOpen,
-    imagePlaceholder: 'https://placehold.co/600x400.png',
-    imageHint: 'student studying',
+    imageHint: 'student using a futuristic AI-powered tablet for research, bright and focused, digital art, knowledge visualization',
     title: lang === 'ar' ? 'الطلاب والباحثون' : 'Students & Researchers',
     description: lang === 'ar' ? 'نظم ملاحظات المحاضرات، وأوراق البحث، ومواد الدراسة بكفاءة. دع الذكاء الاصطناعي يساعدك في العثور على الروابط وتسريع أبحاثك.' : 'Organize lecture notes, research papers, and study materials efficiently. Let AI help you find connections and accelerate your research.',
   },
   {
     icon: Briefcase,
-    imagePlaceholder: 'https://placehold.co/600x400.png',
-    imageHint: 'professionals meeting',
+    imageHint: 'diverse team of professionals in a modern office collaborating using AI-driven data visualizations on a large screen, productive, digital art',
     title: lang === 'ar' ? 'المحترفون والفرق' : 'Professionals & Teams',
     description: lang === 'ar' ? 'التقط محاضر الاجتماعات، وتتبع تقدم المشاريع، وشارك قواعد المعرفة. عزز التعاون والإنتاجية في مكان عملك.' : 'Capture meeting minutes, track project progress, and share knowledge bases. Enhance collaboration and productivity in your workplace.',
   },
   {
     icon: Lightbulb,
-    imagePlaceholder: 'https://placehold.co/600x400.png',
-    imageHint: 'creative workspace',
+    imageHint: 'artist\'s vibrant and inspiring digital workspace with AI tools suggesting creative ideas on a holographic display, innovative, digital art',
     title: lang === 'ar' ? 'المبدعون والمفكرون' : 'Creatives & Thinkers',
     description: lang === 'ar' ? 'اجمع الإلهام، وطور الأفكار، وصمم مشاريعك القادمة. MemoAI هو لوحتك الرقمية الذكية لتنمية الإبداع.' : 'Gather inspiration, develop ideas, and outline your next big projects. MemoAI is your smart digital canvas for fostering creativity.',
   },
   {
     icon: Users,
-    imagePlaceholder: 'https://placehold.co/600x400.png',
-    imageHint: 'personal journal',
+    imageHint: 'individual peacefully organizing their thoughts and memories using a sleek personal AI knowledge management device, serene, digital art, connected ideas',
     title: lang === 'ar' ? 'إدارة المعرفة الشخصية' : 'Personal Knowledge Management',
     description: lang === 'ar' ? 'قم ببناء "عقلك الثاني". نظم أفكارك وتعلمك واهتماماتك في مكان واحد آمن وذكي ويمكن البحث فيه.' : 'Build your "second brain". Organize your thoughts, learnings, and interests in one secure, intelligent, and searchable place.',
   },
@@ -54,23 +52,54 @@ const UseCasesSection: FC = () => {
   const [texts, setTexts] = useState<UseCasesTexts>({
     mainTitle: 'MemoAI: Tailored For You',
     mainSubtitle: 'Discover how MemoAI adapts to various needs, helping everyone unlock their full potential.',
-    cases: getUseCases('en'),
   });
+  const [useCasesContent, setUseCasesContent] = useState<UseCaseContent[]>([]);
+
+  const fetchAndSetImages = useCallback(async (currentLang: string) => {
+    const baseCases = getBaseUseCases(currentLang);
+    // Set initial cases with placeholder URLs
+    setUseCasesContent(baseCases.map(uc => ({ 
+        ...uc, 
+        imageUrl: `https://placehold.co/600x400/180A4B/F0F0F0/png?text=Loading:${uc.title.substring(0,8)}...` 
+    })));
+
+    const updatedCasesWithImages = await Promise.all(
+      baseCases.map(async (useCase) => {
+        try {
+          const result = await generateImage({ prompt: useCase.imageHint });
+          return { ...useCase, imageUrl: result.imageDataUri };
+        } catch (error) {
+          console.error(`Failed to generate image for ${useCase.title}:`, error);
+          return { ...useCase, imageUrl: `https://placehold.co/600x400/E02020/FFFFFF/png?text=Error:${useCase.title.substring(0,8)}` };
+        }
+      })
+    );
+    setUseCasesContent(updatedCasesWithImages);
+  }, []);
 
   useEffect(() => {
+    const currentDirection = document.documentElement.dir || 'ltr';
+    const lang = currentDirection === 'rtl' ? 'ar' : 'en';
+    
+    setTexts({
+      mainTitle: lang === 'ar' ? 'MemoAI: مصمم خصيصًا لك' : 'MemoAI: Tailored For You',
+      mainSubtitle: lang === 'ar' ? 'اكتشف كيف يتكيف MemoAI مع الاحتياجات المختلفة، مما يساعد الجميع على إطلاق العنان لإمكاناتهم الكاملة.' : 'Discover how MemoAI adapts to various needs, helping everyone unlock their full potential.',
+    });
+    fetchAndSetImages(lang);
+
     const handleDirectionChange = () => {
-      const currentDirection = document.documentElement.dir || 'ltr';
-      const lang = currentDirection === 'rtl' ? 'ar' : 'en';
+      const newDirection = document.documentElement.dir || 'ltr';
+      const newLang = newDirection === 'rtl' ? 'ar' : 'en';
       setTexts({
-        mainTitle: lang === 'ar' ? 'MemoAI: مصمم خصيصًا لك' : 'MemoAI: Tailored For You',
-        mainSubtitle: lang === 'ar' ? 'اكتشف كيف يتكيف MemoAI مع الاحتياجات المختلفة، مما يساعد الجميع على إطلاق العنان لإمكاناتهم الكاملة.' : 'Discover how MemoAI adapts to various needs, helping everyone unlock their full potential.',
-        cases: getUseCases(lang),
+        mainTitle: newLang === 'ar' ? 'MemoAI: مصمم خصيصًا لك' : 'MemoAI: Tailored For You',
+        mainSubtitle: newLang === 'ar' ? 'اكتشف كيف يتكيف MemoAI مع الاحتياجات المختلفة، مما يساعد الجميع على إطلاق العنان لإمكاناتهم الكاملة.' : 'Discover how MemoAI adapts to various needs, helping everyone unlock their full potential.',
       });
+      fetchAndSetImages(newLang);
     };
-    handleDirectionChange();
+    
     window.addEventListener('directionChanged', handleDirectionChange);
     return () => window.removeEventListener('directionChanged', handleDirectionChange);
-  }, []);
+  }, [fetchAndSetImages]);
 
   return (
     <section id="use-cases" className="w-full py-20 md:py-28 lg:py-32 bg-background">
@@ -84,16 +113,15 @@ const UseCasesSection: FC = () => {
           </p>
         </div>
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-2">
-          {texts.cases.map((useCase, index) => (
+          {useCasesContent.map((useCase, index) => (
             <Card key={index} className="overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-[1.02] bg-card group animate-fadeIn">
               <div className="relative h-56 w-full">
                 <Image
-                  src={useCase.imagePlaceholder}
-                  alt={useCase.title}
+                  src={useCase.imageUrl || `https://placehold.co/600x400.png?text=${useCase.title}`}
+                  alt={`AI Generated: ${useCase.title}`}
                   fill
                   sizes="(max-width: 768px) 100vw, 50vw"
                   className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  data-ai-hint={useCase.imageHint}
                 />
               </div>
               <CardHeader className="flex flex-row items-start gap-3 pt-4">

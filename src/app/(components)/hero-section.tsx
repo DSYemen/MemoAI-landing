@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import Image from 'next/image';
+import { generateImage } from '@/ai/flows/generate-image-flow';
 
 interface HeroTexts {
   title: string;
@@ -22,6 +23,8 @@ const HeroSection: FC = () => {
     learnMore: 'Learn More',
   });
   const [direction, setDirection] = useState('ltr');
+  const [heroImageUrl, setHeroImageUrl] = useState<string>("https://placehold.co/800x450/180A4B/F0F0F0/png?text=Loading+AI+Image...");
+  const initialImageHint = "modern app interface for a note-taking AI, clean, cosmic theme, digital art, cinematic lighting";
 
   useEffect(() => {
     const handleDirectionChange = () => {
@@ -46,8 +49,28 @@ const HeroSection: FC = () => {
 
     handleDirectionChange(); // Initial call
     window.addEventListener('directionChanged', handleDirectionChange);
-    return () => window.removeEventListener('directionChanged', handleDirectionChange);
-  }, []);
+    
+    const fetchHeroImage = async () => {
+      try {
+        const result = await generateImage({ prompt: initialImageHint });
+        if (result.imageDataUri) {
+          setHeroImageUrl(result.imageDataUri);
+        } else {
+          console.warn("Hero image generation did not return a data URI.");
+          setHeroImageUrl("https://placehold.co/800x450/E02020/FFFFFF/png?text=Error+Generating+Image");
+        }
+      } catch (error) {
+        console.error("Failed to generate hero image:", error);
+        setHeroImageUrl("https://placehold.co/800x450/E02020/FFFFFF/png?text=Error+Generating+Image");
+      }
+    };
+
+    fetchHeroImage();
+
+    return () => {
+      window.removeEventListener('directionChanged', handleDirectionChange);
+    };
+  }, []); // initialImageHint is static, so no need to add to dependencies for re-fetching
 
   return (
     <section id="hero" className="w-full py-20 md:py-32 lg:py-40 bg-gradient-to-br from-background to-muted">
@@ -71,13 +94,12 @@ const HeroSection: FC = () => {
           </div>
           <div className="relative aspect-video overflow-hidden rounded-xl shadow-2xl group animate-fadeIn">
              <Image 
-              src="https://placehold.co/800x450/180A4B/F0F0F0" 
-              alt="MemoAI Interface Preview" 
+              src={heroImageUrl} 
+              alt="AI Generated MemoAI Interface Preview" 
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 800px"
               className="object-cover transition-transform duration-500 group-hover:scale-105"
-              data-ai-hint="app interface"
-              priority
+              priority={heroImageUrl.startsWith('https://placehold.co')} // Only prioritize initial placeholder
             />
           </div>
         </div>
