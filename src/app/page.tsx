@@ -1,8 +1,10 @@
+
 import Navbar from './(components)/navbar';
 import HeroSection from './(components)/hero-section';
 import FeatureShowcase from './(components)/feature-showcase';
 import HowItWorksSection from './(components)/how-it-works';
 import UseCasesSection from './(components)/use-cases';
+import ProductsSection from './(components)/products-section'; // Added import
 import AiAssistantPreview from './(components)/ai-assistant-preview';
 import MultiLanguageSupport from './(components)/multi-language-support';
 import FaqSection from './(components)/faq-section';
@@ -17,6 +19,7 @@ export default function HomePage() {
         <FeatureShowcase />
         <HowItWorksSection />
         <UseCasesSection />
+        <ProductsSection /> {/* Added new section */}
         <AiAssistantPreview />
         <MultiLanguageSupport />
         <FaqSection />
@@ -25,3 +28,5 @@ export default function HomePage() {
     </div>
   );
 }
+
+    

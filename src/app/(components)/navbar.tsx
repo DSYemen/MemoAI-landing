@@ -17,6 +17,7 @@ const getNavLinks = (lang: string): NavLink[] => [
   { href: '#features', label: lang === 'ar' ? 'الميزات' : 'Features' },
   { href: '#how-it-works', label: lang === 'ar' ? 'كيف يعمل' : 'How It Works' },
   { href: '#use-cases', label: lang === 'ar' ? 'حالات الاستخدام' : 'Use Cases' },
+  { href: '#products', label: lang === 'ar' ? 'المنتجات' : 'Products' }, // Added Products link
   { href: '#ai-preview', label: lang === 'ar' ? 'معاينة AI' : 'AI Preview' },
   { href: '#language-support', label: lang === 'ar' ? 'اللغات' : 'Languages' },
   { href: '#faq', label: lang === 'ar' ? 'الأسئلة الشائعة' : 'FAQ' },
@@ -25,9 +26,6 @@ const getNavLinks = (lang: string): NavLink[] => [
 
 interface NavbarTexts {
   memoAI: string;
-  // features: string; // No longer needed directly as getNavLinks handles it
-  // aiPreview: string;
-  // languages: string;
   getStarted: string;
   toggleTheme: string;
   toggleDirection: string;
@@ -71,17 +69,14 @@ const Navbar: FC = () => {
     const storedDirection = localStorage.getItem('direction') || 'ltr';
     setDirection(storedDirection);
     document.documentElement.setAttribute('dir', storedDirection);
-    updateTextsAndLinks(storedDirection); // Use the combined function
-    // Dispatch initial direction for other components
+    updateTextsAndLinks(storedDirection); 
     window.dispatchEvent(new CustomEvent('directionChanged', { detail: { direction: storedDirection } }));
 
 
     const handleDirectionChange = (event: Event) => {
       const newDirection = (event as CustomEvent).detail.direction;
-      // No need to setDirection here as it's managed by toggleDirection
       updateTextsAndLinks(newDirection);
     };
-    // Listen to the global direction change event
     window.addEventListener('directionChanged', handleDirectionChange);
 
     return () => {
@@ -108,7 +103,6 @@ const Navbar: FC = () => {
 
 
   if (!mounted) {
-    // Simplified skeleton for SSR/initial load to prevent layout shifts
     return (
       <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container mx-auto flex h-16 max-w-screen-2xl items-center justify-between px-4 md:px-6">
@@ -244,3 +238,5 @@ const Navbar: FC = () => {
 };
 
 export default Navbar;
+
+    
