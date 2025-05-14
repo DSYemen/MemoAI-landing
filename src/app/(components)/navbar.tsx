@@ -2,25 +2,28 @@
 "use client";
 
 import Link from 'next/link';
-import { useState, useEffect, type FC } from 'react';
+import { useState, useEffect, type FC, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Menu, BrainCircuit, Sun, Moon, AlignLeft, AlignRight } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 interface NavLink {
   href: string;
   label: string;
   ariaLabel?: string;
+  id: string; // Section ID without '#'
 }
 
 const getNavLinks = (lang: string): NavLink[] => [
-  { href: '#features', label: lang === 'ar' ? 'الميزات' : 'Features' },
-  { href: '#how-it-works', label: lang === 'ar' ? 'كيف يعمل' : 'How It Works' },
-  { href: '#use-cases', label: lang === 'ar' ? 'حالات الاستخدام' : 'Use Cases' },
-  { href: '#products', label: lang === 'ar' ? 'المنتجات' : 'Products' }, // Added Products link
-  { href: '#ai-preview', label: lang === 'ar' ? 'معاينة AI' : 'AI Preview' },
-  { href: '#language-support', label: lang === 'ar' ? 'اللغات' : 'Languages' },
-  { href: '#faq', label: lang === 'ar' ? 'الأسئلة الشائعة' : 'FAQ' },
+  { href: '#hero', id: 'hero', label: lang === 'ar' ? 'الرئيسية' : 'Home' },
+  { href: '#features', id: 'features', label: lang === 'ar' ? 'الميزات' : 'Features' },
+  { href: '#how-it-works', id: 'how-it-works', label: lang === 'ar' ? 'كيف يعمل' : 'How It Works' },
+  { href: '#use-cases', id: 'use-cases', label: lang === 'ar' ? 'حالات الاستخدام' : 'Use Cases' },
+  { href: '#products', id: 'products', label: lang === 'ar' ? 'المنتجات' : 'Products' },
+  { href: '#ai-preview', id: 'ai-preview', label: lang === 'ar' ? 'معاينة AI' : 'AI Preview' },
+  { href: '#language-support', id: 'language-support', label: lang === 'ar' ? 'اللغات' : 'Languages' },
+  { href: '#faq', id: 'faq', label: lang === 'ar' ? 'الأسئلة الشائعة' : 'FAQ' },
 ];
 
 
@@ -45,9 +48,10 @@ const Navbar: FC = () => {
     toggleNav: 'Toggle navigation menu',
   });
   const [currentNavLinks, setCurrentNavLinks] = useState<NavLink[]>(getNavLinks('en'));
+  const [activeSection, setActiveSection] = useState<string | null>('hero');
 
 
-  const updateTextsAndLinks = (currentDirection: string) => {
+  const updateTextsAndLinks = useCallback((currentDirection: string) => {
     const lang = currentDirection === 'rtl' ? 'ar' : 'en';
     setTexts({
       memoAI: lang === 'ar' ? 'ميمو AI' : 'MemoAI',
@@ -57,7 +61,7 @@ const Navbar: FC = () => {
       toggleNav: lang === 'ar' ? 'تبديل قائمة التصفح' : 'Toggle navigation menu',
     });
     setCurrentNavLinks(getNavLinks(lang));
-  };
+  }, []);
 
 
   useEffect(() => {
@@ -69,9 +73,8 @@ const Navbar: FC = () => {
     const storedDirection = localStorage.getItem('direction') || 'ltr';
     setDirection(storedDirection);
     document.documentElement.setAttribute('dir', storedDirection);
-    updateTextsAndLinks(storedDirection); 
+    updateTextsAndLinks(storedDirection);
     window.dispatchEvent(new CustomEvent('directionChanged', { detail: { direction: storedDirection } }));
-
 
     const handleDirectionChange = (event: Event) => {
       const newDirection = (event as CustomEvent).detail.direction;
@@ -82,8 +85,81 @@ const Navbar: FC = () => {
     return () => {
       window.removeEventListener('directionChanged', handleDirectionChange);
     };
+  }, [updateTextsAndLinks]);
 
-  }, []);
+  useEffect(() => {
+    if (!mounted) return;
+
+    const sectionElements = currentNavLinks
+      .map(link => document.getElementById(link.id))
+      .filter(el => el !== null) as HTMLElement[];
+
+    if (sectionElements.length === 0) return;
+    
+    const observerCallback = (entries: IntersectionObserverEntry[]) => {
+        let currentActive: string | null = null;
+        let highestVisibleEntry: IntersectionObserverEntry | null = null;
+
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                if (!highestVisibleEntry || entry.boundingClientRect.top < highestVisibleEntry.boundingClientRect.top) {
+                    highestVisibleEntry = entry;
+                }
+            }
+        });
+
+        if (highestVisibleEntry) {
+            currentActive = highestVisibleEntry.target.id;
+        } else {
+             // Fallback if no section is "primarily" intersecting according to rootMargin
+             // Check current scroll position to guess.
+            const scrollY = window.scrollY;
+            const windowHeight = window.innerHeight;
+            const docHeight = document.documentElement.scrollHeight;
+            if (scrollY < 50 && sectionElements.find(s => s.id === 'hero')) {
+                 currentActive = 'hero';
+            } else if (scrollY + windowHeight >= docHeight - 100 && sectionElements.length > 0) {
+                 currentActive = sectionElements[sectionElements.length - 1].id;
+            }
+        }
+        if (currentActive) {
+            setActiveSection(currentActive);
+        }
+    };
+
+    const observerOptions = {
+      root: null,
+      rootMargin: `-${64 + 20}px 0px -${window.innerHeight * 0.55}px 0px`, // Top offset by navbar height + margin, active if in top 45% of viewport
+      threshold: 0.01,
+    };
+
+    const observer = new IntersectionObserver(observerCallback, observerOptions);
+    sectionElements.forEach(section => observer.observe(section));
+
+    // Handle initial active section based on hash or scroll position
+    const currentHash = window.location.hash.substring(1);
+    let initialSectionSet = false;
+    if (currentNavLinks.some(link => link.id === currentHash)) {
+        const targetElement = document.getElementById(currentHash);
+        if (targetElement) {
+            setTimeout(() => { // Timeout for layout to settle
+                targetElement.scrollIntoView({ behavior: 'auto' });
+                setActiveSection(currentHash);
+            }, 100);
+            initialSectionSet = true;
+        }
+    }
+    
+    if (!initialSectionSet && window.scrollY < 50 && sectionElements.find(s => s.id === 'hero')) {
+        setActiveSection('hero');
+    }
+
+
+    return () => sectionElements.forEach(section => {
+      if (section) observer.unobserve(section);
+    });
+  }, [currentNavLinks, mounted]);
+
 
   const toggleTheme = () => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
@@ -94,32 +170,48 @@ const Navbar: FC = () => {
 
   const toggleDirection = () => {
     const newDirection = direction === 'ltr' ? 'rtl' : 'ltr';
-    setDirection(newDirection); 
+    setDirection(newDirection);
     localStorage.setItem('direction', newDirection);
     document.documentElement.setAttribute('dir', newDirection);
-    updateTextsAndLinks(newDirection); 
+    // updateTextsAndLinks(newDirection); // Already handled by event listener
     window.dispatchEvent(new CustomEvent('directionChanged', { detail: { direction: newDirection } }));
   };
 
+  const handleNavLinkClick = (event: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    event.preventDefault();
+    const targetId = href.substring(1);
+    const targetElement = document.getElementById(targetId);
+    if (targetElement) {
+      // Calculate scroll position considering fixed navbar height (approx 64px)
+      const navbarHeight = 64;
+      const elementPosition = targetElement.getBoundingClientRect().top + window.scrollY;
+      const offsetPosition = elementPosition - navbarHeight;
 
-  if (!mounted) {
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth',
+      });
+      // Optionally update URL hash (can cause issues with observer if not careful)
+      // window.history.pushState(null, '', href);
+      setActiveSection(targetId); // Optimistically set active section
+    }
+    setIsMobileMenuOpen(false);
+  };
+
+
+  if (!mounted) { // Skeleton for SSR or initial client render before hydration
     return (
       <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container mx-auto flex h-16 max-w-screen-2xl items-center justify-between px-4 md:px-6">
-          <Link href="/" className="flex items-center gap-2" prefetch={false}>
+          <div className="flex items-center gap-2">
             <BrainCircuit className="h-7 w-7 text-primary" />
             <span className="text-xl font-bold text-foreground">MemoAI</span>
-          </Link>
+          </div>
           <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
-            {getNavLinks('en').map((link) => (
-              <Link
-                key={link.label}
-                href={link.href}
-                className="text-foreground/70 transition-colors hover:text-foreground"
-                prefetch={false}
-              >
+            {getNavLinks('en').map((link) => ( // Use default links for skeleton
+              <span key={link.id} className="text-foreground/70">
                 {link.label}
-              </Link>
+              </span>
             ))}
           </nav>
           <div className="flex items-center gap-2">
@@ -130,20 +222,14 @@ const Navbar: FC = () => {
               <AlignLeft className="h-5 w-5" />
             </Button>
             <div className="hidden md:flex items-center gap-4 ml-2">
-                <Button variant="default" size="sm" asChild className="bg-accent hover:bg-accent/90 text-accent-foreground">
-                  <Link href="#cta">Get Started</Link>
-                </Button>
+                <Button variant="default" size="sm">Get Started</Button>
             </div>
           </div>
           <div className="md:hidden">
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <Menu className="h-6 w-6" />
-                  <span className="sr-only">Toggle navigation menu</span>
-                </Button>
-              </SheetTrigger>
-            </Sheet>
+            <Button variant="ghost" size="icon">
+              <Menu className="h-6 w-6" />
+              <span className="sr-only">Toggle navigation menu</span>
+            </Button>
           </div>
         </div>
       </header>
@@ -153,17 +239,24 @@ const Navbar: FC = () => {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-16 max-w-screen-2xl items-center justify-between px-4 md:px-6">
-        <Link href="/" className="flex items-center gap-2" prefetch={false}>
+        <Link href="#hero" onClick={(e) => handleNavLinkClick(e, '#hero')} className="flex items-center gap-2" prefetch={false}>
           <BrainCircuit className="h-7 w-7 text-primary" />
           <span className="text-xl font-bold text-foreground">{texts.memoAI}</span>
         </Link>
 
-        <nav className="hidden md:flex items-center gap-x-4 lg:gap-x-6 text-sm font-medium">
+        <nav className="hidden md:flex items-center gap-x-3 lg:gap-x-4 text-sm">
           {currentNavLinks.map((link) => (
             <Link
-              key={link.label}
+              key={link.id}
               href={link.href}
-              className="text-foreground/70 transition-colors hover:text-foreground"
+              onClick={(e) => handleNavLinkClick(e, link.href)}
+              className={cn(
+                "px-2 py-1 rounded-md transition-colors duration-200 ease-in-out",
+                "hover:text-primary hover:bg-primary/10",
+                activeSection === link.id
+                  ? "text-primary font-semibold bg-primary/10"
+                  : "text-foreground/70 "
+              )}
               prefetch={false}
               aria-label={link.ariaLabel || link.label}
             >
@@ -181,10 +274,10 @@ const Navbar: FC = () => {
           </Button>
           <div className="hidden md:flex items-center gap-4 ml-2">
             <Button variant="default" size="sm" asChild className="bg-accent hover:bg-accent/90 text-accent-foreground">
-              <Link href="#cta">{texts.getStarted}</Link>
+              <Link href="#cta" onClick={(e) => handleNavLinkClick(e, '#cta')}>{texts.getStarted}</Link>
             </Button>
           </div>
-        
+
 
           <div className="md:hidden">
             <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
@@ -196,18 +289,23 @@ const Navbar: FC = () => {
               </SheetTrigger>
               <SheetContent side={direction === 'rtl' ? 'left' : 'right'}>
                 <div className="grid gap-6 p-6">
-                  <Link href="/" className="flex items-center gap-2" prefetch={false} onClick={() => setIsMobileMenuOpen(false)}>
+                  <Link href="#hero" onClick={(e) => handleNavLinkClick(e, '#hero')} className="flex items-center gap-2" prefetch={false}>
                     <BrainCircuit className="h-7 w-7 text-primary" />
                     <span className="text-xl font-bold text-foreground">{texts.memoAI}</span>
                   </Link>
                   <nav className="grid gap-4">
                     {currentNavLinks.map((link) => (
                       <Link
-                        key={link.label}
+                        key={link.id}
                         href={link.href}
-                        className="py-2 text-lg font-medium text-foreground/70 transition-colors hover:text-foreground"
+                        onClick={(e) => handleNavLinkClick(e, link.href)}
+                        className={cn(
+                            "py-2 text-lg transition-colors duration-200 ease-in-out",
+                            activeSection === link.id
+                              ? "text-primary font-semibold"
+                              : "text-foreground/70 hover:text-primary"
+                          )}
                         prefetch={false}
-                        onClick={() => setIsMobileMenuOpen(false)}
                         aria-label={link.ariaLabel || link.label}
                       >
                         {link.label}
@@ -224,7 +322,7 @@ const Navbar: FC = () => {
                       {texts.toggleDirection}
                       </Button>
                   </div>
-                  <Button variant="default" size="lg" asChild onClick={() => setIsMobileMenuOpen(false)} className="bg-accent hover:bg-accent/90 text-accent-foreground">
+                  <Button variant="default" size="lg" asChild onClick={(e) => handleNavLinkClick(e, '#cta')} className="bg-accent hover:bg-accent/90 text-accent-foreground">
                     <Link href="#cta">{texts.getStarted}</Link>
                   </Button>
                 </div>
@@ -238,5 +336,3 @@ const Navbar: FC = () => {
 };
 
 export default Navbar;
-
-    

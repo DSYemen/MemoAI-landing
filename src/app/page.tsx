@@ -1,14 +1,16 @@
 
+
 import Navbar from './(components)/navbar';
 import HeroSection from './(components)/hero-section';
 import FeatureShowcase from './(components)/feature-showcase';
 import HowItWorksSection from './(components)/how-it-works';
 import UseCasesSection from './(components)/use-cases';
-import ProductsSection from './(components)/products-section'; // Added import
+import ProductsSection from './(components)/products-section'; 
 import AiAssistantPreview from './(components)/ai-assistant-preview';
 import MultiLanguageSupport from './(components)/multi-language-support';
 import FaqSection from './(components)/faq-section';
 import Footer from './(components)/footer';
+import ScrollToTopButton from './(components)/scroll-to-top-button'; // Added import
 
 export default function HomePage() {
   return (
@@ -19,14 +21,13 @@ export default function HomePage() {
         <FeatureShowcase />
         <HowItWorksSection />
         <UseCasesSection />
-        <ProductsSection /> {/* Added new section */}
+        <ProductsSection /> 
         <AiAssistantPreview />
         <MultiLanguageSupport />
         <FaqSection />
       </main>
       <Footer />
+      <ScrollToTopButton /> {/* Added component */}
     </div>
   );
 }
-
-    
