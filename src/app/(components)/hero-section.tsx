@@ -8,6 +8,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { generateImage } from '@/ai/flows/generate-image-flow';
 import { cn } from '@/lib/utils';
+import { Sparkles } from 'lucide-react';
 
 interface HeroTexts {
   title: string;
@@ -24,8 +25,8 @@ const HeroSection: FC = () => {
     learnMore: 'Learn More',
   });
   const [direction, setDirection] = useState('ltr');
-  const [heroImageUrl, setHeroImageUrl] = useState<string>("https://placehold.co/800x450/180A4B/F0F0F0/png?text=Loading+AI+Image...");
-  const initialImageHint = "modern app interface for a note-taking AI, clean, cosmic theme, digital art, cinematic lighting";
+  const [heroImageUrl, setHeroImageUrl] = useState<string>("https://placehold.co/1200x800/0A0F1E/F0F0F0/png?text=Loading+Cosmic+AI+Portal...");
+  const initialImageHint = "expansive cosmic vista, nebulae, distant galaxies, with a subtle overlay of abstract AI neural network patterns, digital art, cinematic, breathtaking";
 
   useEffect(() => {
     const handleDirectionChange = () => {
@@ -33,10 +34,10 @@ const HeroSection: FC = () => {
       setDirection(currentDirection);
       if (currentDirection === 'rtl') {
         setTexts({
-          title: 'MemoAI: مركزك المعرفي الذكي',
-          subtitle: 'التقط، تواصل، وأنشئ بقوة الذكاء الاصطناعي. حوّل ملاحظاتك إلى رؤى قابلة للتنفيذ واطلق العنان لإمكاناتك الكاملة.',
-          getStarted: 'ابدأ مجانًا',
-          learnMore: 'اعرف المزيد',
+          title: 'MemoAI: بوابتك الكونية للذكاء',
+          subtitle: 'التقط، تواصل، وأبدع بقوة الذكاء الاصطناعي. حوّل ملاحظاتك إلى رؤى فعالة واكتشف أقصى إمكاناتك.',
+          getStarted: 'ابدأ التجربة مجانًا',
+          learnMore: 'اكتشف المزيد',
         });
       } else {
         setTexts({
@@ -48,7 +49,7 @@ const HeroSection: FC = () => {
       }
     };
 
-    handleDirectionChange(); // Initial call
+    handleDirectionChange();
     window.addEventListener('directionChanged', handleDirectionChange);
     
     const fetchHeroImage = async () => {
@@ -58,11 +59,11 @@ const HeroSection: FC = () => {
           setHeroImageUrl(result.imageDataUri);
         } else {
           console.warn("Hero image generation did not return a data URI.");
-          setHeroImageUrl("https://placehold.co/800x450/E02020/FFFFFF/png?text=Error+Generating+Image");
+          setHeroImageUrl("https://placehold.co/1200x800/E02020/FFFFFF/png?text=Error+Generating+Image");
         }
       } catch (error) {
         console.error("Failed to generate hero image:", error);
-        setHeroImageUrl("https://placehold.co/800x450/E02020/FFFFFF/png?text=Error+Generating+Image");
+        setHeroImageUrl("https://placehold.co/1200x800/E02020/FFFFFF/png?text=Error+Generating+Image");
       }
     };
 
@@ -71,51 +72,79 @@ const HeroSection: FC = () => {
     return () => {
       window.removeEventListener('directionChanged', handleDirectionChange);
     };
-  }, []); // initialImageHint is static, so no need to add to dependencies for re-fetching
+  }, []);
 
   return (
-    <section id="hero" className="w-full py-20 md:py-32 lg:py-40 bg-gradient-to-br from-primary/10 via-background to-accent/5 overflow-hidden">
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
+    <section 
+      id="hero" 
+      className="relative w-full h-[calc(100vh-64px)] min-h-[600px] md:min-h-[700px] lg:min-h-[800px] flex items-center justify-center overflow-hidden text-white"
+    >
+      {/* Background Image */}
+      <div className="absolute inset-0 z-0">
+        <Image 
+          src={heroImageUrl} 
+          alt="Cosmic AI Portal Background" 
+          fill
+          sizes="100vw"
+          className="object-cover transition-transform duration-1000 ease-out group-hover:scale-105"
+          priority={heroImageUrl.startsWith('https://placehold.co')} 
+          data-ai-hint={initialImageHint}
+        />
+        {/* Gradient Overlay for contrast */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/50 to-black/70 md:bg-gradient-to-r rtl:md:bg-gradient-to-l md:from-black/70 md:via-black/40 md:to-transparent"></div>
+      </div>
+
+      {/* Content Overlay */}
+      <div className="relative z-10 container mx-auto px-4 md:px-6 animate-fadeIn">
+        <div 
+          className={cn(
+            "max-w-3xl text-center mx-auto",
+            direction === 'rtl' ? 'md:text-right md:mr-0 md:ml-auto' : 'md:text-left md:ml-0 md:mr-auto'
+          )}
+        >
+          <h1 
+            className="text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl animate-fadeIn" 
+            style={{animationDelay: '0.2s', textShadow: '0px 4px 12px rgba(var(--primary-hsl), 0.5), 0 0 15px rgba(0,0,0,0.7)'}}
+          >
+            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-primary via-accent to-primary-foreground/80 filter brightness-125">
+              {texts.title.split(': ')[0]}:
+            </span>
+            <span className="block mt-1 md:mt-2 text-primary-foreground/90">
+              {texts.title.split(': ')[1]}
+            </span>
+          </h1>
+          <p 
+            className="mt-6 max-w-xl text-lg text-primary-foreground/80 md:text-xl lg:text-2xl animate-fadeIn mx-auto" 
+            style={{animationDelay: '0.4s', textShadow: '0 1px 3px rgba(0,0,0,0.5)'}}
+          >
+            {texts.subtitle}
+          </p>
           <div 
             className={cn(
-              "space-y-8 text-center lg:text-left bg-background/60 backdrop-blur-md p-6 md:p-10 rounded-xl shadow-2xl animate-fadeIn",
-              "border border-primary/20",
-              direction === 'rtl' ? 'lg:text-right' : 'lg:text-left'
+              "mt-10 flex flex-col gap-4 sm:flex-row sm:justify-center animate-fadeIn",
+              direction === 'rtl' ? 'md:justify-end' : 'md:justify-start'
             )}
+            style={{animationDelay: '0.6s'}}
           >
-            <h1 className="text-4xl font-bold tracking-tight text-primary sm:text-5xl md:text-6xl lg:text-7xl animate-fadeIn" style={{animationDelay: '0.2s'}}>
-              {texts.title}
-            </h1>
-            <p className="text-lg text-foreground/80 md:text-xl lg:text-2xl animate-fadeIn" style={{animationDelay: '0.4s'}}>
-              {texts.subtitle}
-            </p>
-            <div 
-              className={cn(
-                "flex flex-col gap-4 sm:flex-row sm:justify-center animate-fadeIn",
-                direction === 'rtl' ? 'lg:justify-end' : 'lg:justify-start'
-              )}
-              style={{animationDelay: '0.6s'}}
+            <Button 
+              size="lg" 
+              asChild 
+              className="bg-accent hover:bg-accent/90 text-accent-foreground shadow-xl transition-all hover:scale-105 hover:shadow-accent/50 animate-pulse-slow border-2 border-accent-foreground/30"
+              style={{animationDuration: '3s'}}
             >
-              <Button size="lg" asChild className="bg-accent hover:bg-accent/90 text-accent-foreground shadow-lg transition-transform hover:scale-105">
-                <Link href="#cta">{texts.getStarted}</Link>
-              </Button>
-              <Button variant="outline" size="lg" asChild className="shadow-md transition-transform hover:scale-105 border-primary/50 hover:bg-primary/5 hover:border-primary text-primary">
-                <Link href="#features">{texts.learnMore}</Link>
-              </Button>
-            </div>
-          </div>
-          <div className="relative aspect-video lg:aspect-[16/10] overflow-hidden rounded-xl shadow-2xl group animate-fadeIn order-first lg:order-last">
-             <Image 
-              src={heroImageUrl} 
-              alt="AI Generated MemoAI Interface Preview" 
-              fill
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 800px"
-              className="object-cover transition-transform duration-500 group-hover:scale-105"
-              priority={heroImageUrl.startsWith('https://placehold.co')} 
-              data-ai-hint={initialImageHint}
-            />
-             <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent opacity-50 group-hover:opacity-75 transition-opacity duration-300"></div>
+              <Link href="#cta">
+                <Sparkles className="mr-2 rtl:ml-2 rtl:mr-0 h-5 w-5" /> 
+                {texts.getStarted}
+              </Link>
+            </Button>
+            <Button 
+              variant="outline" 
+              size="lg" 
+              asChild 
+              className="shadow-lg transition-all hover:scale-105 border-primary-foreground/50 hover:bg-primary-foreground/10 hover:border-primary-foreground text-primary-foreground backdrop-blur-sm bg-white/5"
+            >
+              <Link href="#features">{texts.learnMore}</Link>
+            </Button>
           </div>
         </div>
       </div>
@@ -124,3 +153,4 @@ const HeroSection: FC = () => {
 };
 
 export default HeroSection;
+
