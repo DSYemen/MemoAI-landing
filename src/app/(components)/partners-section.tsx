@@ -72,10 +72,10 @@ const PartnersSection: FC = () => {
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-8 items-center">
           {texts.partners.map((partner) => (
-            <div key={partner.originalName} className="flex justify-center items-center p-4 animate-fadeIn group"> {/* Use originalName for key */}
+            <div key={partner.originalName} className="flex justify-center items-center p-4 animate-fadeIn group">
               <Image
                 src={partner.logoUrl}
-                alt={partner.name} {/* Display name for alt text is fine */}
+                alt={partner.name}
                 width={150}
                 height={75}
                 className="object-contain transition-transform duration-300 group-hover:scale-110 filter grayscale hover:grayscale-0 opacity-70 hover:opacity-100"
