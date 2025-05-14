@@ -26,5 +26,4 @@
     }
   },
   "include": ["src", "vite.config.ts", "index.html"], // Updated include
-  "references": [{ "path": "./tsconfig.node.json" }] // Common for Vite
 }

@@ -1,4 +1,4 @@
-
+react
 # MemoAI: Your Intelligent Knowledge Hub (React + Vite)
 
 This is a React + Vite starter project for MemoAI, an intelligent knowledge hub application, built in Firebase Studio.

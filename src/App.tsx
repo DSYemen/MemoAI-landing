@@ -7,7 +7,7 @@ import FeatureShowcase from './app/(components)/feature-showcase';
 import HowItWorksSection from './app/(components)/how-it-works';
 import UseCasesSection from './app/(components)/use-cases';
 import ProductsSection from './app/(components)/products-section'; 
-import TryAISection from './app/(components)/try-ai-section';
+// import TryAISection from './app/(components)/try-ai-section';
 import TestimonialsSection from './app/(components)/testimonials-section';
 import PricingSection from './app/(components)/pricing-section';
 import PartnersSection from './app/(components)/partners-section';
@@ -45,7 +45,6 @@ export default function App() {
         <HowItWorksSection />
         <UseCasesSection />
         <ProductsSection /> 
-        <TryAISection /> {/* This section now includes AI preview and language features */}
         <TestimonialsSection />
         <PricingSection />
         <PartnersSection />
