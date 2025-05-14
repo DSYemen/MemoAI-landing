@@ -1,4 +1,6 @@
 
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -110,7 +112,7 @@
   body {
     @apply bg-background text-foreground;
     @apply selection:bg-primary selection:text-primary-foreground;
-    font-family: var(--font-cairo), system-ui, sans-serif; /* Ensure Cairo is primary */
+    font-family: 'Cairo', system-ui, sans-serif; /* Apply Cairo font directly */
   }
 }
 
@@ -133,17 +135,14 @@
   50% { opacity: 0.95; box-shadow: 0 0 0 10px rgba(hsl(var(--accent-hsl)), 0); }
 }
 
-/* Ensure html and body take full height for the hero section to work correctly */
-/* It's better to manage height on specific layout components rather than globally on html/#__next if not strictly needed */
 html, body {
   height: 100%;
-  /* Consider removing width: 100%; overflow-x: hidden; if not essential as they can sometimes complicate layouts */
 }
 
-#__next, .flex.flex-col.min-h-screen {
-  min-height: 100vh; /* Use min-height for flexibility */
-  display: flex; /* Ensure #__next is also a flex container if its direct child is page.tsx's div */
-  flex-direction: column; /* Matches page.tsx's div */
+#root, .flex.flex-col.min-h-screen { /* Ensure root and App div take full height */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 main.flex-grow {

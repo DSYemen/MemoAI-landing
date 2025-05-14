@@ -5,14 +5,14 @@ import { fontFamily } from "tailwindcss/defaultTheme";
 export default {
     darkMode: ["class"],
     content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    // Adjusted paths for Vite structure if components are directly under src/components or src/app/(components)
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx,mdx}", 
   ],
   theme: {
   	extend: {
       fontFamily: {
-        sans: ["var(--font-cairo)", ...fontFamily.sans],
+        sans: ["Cairo", ...fontFamily.sans], // Use Cairo directly
       },
   		colors: {
   			background: 'hsl(var(--background))',
