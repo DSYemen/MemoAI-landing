@@ -37,7 +37,7 @@ const productDetails: ProductInfo[] = [
   {
     id: 'web-app',
     icon: Globe2,
-    imageHint: 'sleek web application dashboard darkmode productivity ai',
+    imageHint: 'Dynamic AI-powered web application dashboard interface, showcasing intelligent note organization, collaborative tools, and data visualization charts, sleek dark mode aesthetic, futuristic, cosmic background elements',
     defaultImage: 'https://placehold.co/700x450/1A093D/E0E0FF/png?text=MemoAI+Web+App',
     titleKey: 'webAppTitle',
     descriptionKey: 'webAppDescription',
@@ -46,7 +46,7 @@ const productDetails: ProductInfo[] = [
   {
     id: 'mobile-app',
     icon: Smartphone,
-    imageHint: 'modern mobile app interface notes organization ai assistant',
+    imageHint: 'Elegant mobile app interface for AI note-taking, offline access, quick capture widgets, cross-device sync, intuitive gestures, on a vibrant abstract background',
     defaultImage: 'https://placehold.co/700x450/0D1B3E/B0C8FF/png?text=MemoAI+Mobile+App',
     titleKey: 'mobileAppTitle',
     descriptionKey: 'mobileAppDescription',
@@ -55,7 +55,7 @@ const productDetails: ProductInfo[] = [
   {
     id: 'desktop-app',
     icon: AppWindow,
-    imageHint: 'powerful desktop application ui darkmode knowledge management offline',
+    imageHint: 'Powerful native desktop application for knowledge management, featuring advanced search, offline capabilities, rich text editing with AI assistance, customizable workspace, connected to a conceptual neural network graphic',
     defaultImage: 'https://placehold.co/700x450/102A2A/A0E0E0/png?text=MemoAI+Desktop+App',
     titleKey: 'desktopAppTitle',
     descriptionKey: 'desktopAppDescription',
@@ -64,7 +64,7 @@ const productDetails: ProductInfo[] = [
   {
     id: 'browser-extension',
     icon: Puzzle,
-    imageHint: 'browser extension popup darkmode web clipping notes ai integration',
+    imageHint: 'Seamless browser extension pop-up for web clipping and quick notes, integrated with AI summarization, contextual tagging, dark mode, floating over a blurred webpage showing research content',
     defaultImage: 'https://placehold.co/700x450/2E0F2E/E8C0E8/png?text=MemoAI+Browser+Ext',
     titleKey: 'browserExtensionTitle',
     descriptionKey: 'browserExtensionDescription',
@@ -73,7 +73,7 @@ const productDetails: ProductInfo[] = [
   {
     id: 'vscode-extension',
     icon: CodeXml,
-    imageHint: 'VSCode extension interface darkmode developer tools notes ai coding assistant',
+    imageHint: 'VS Code extension sidebar for developers, AI-powered code snippet management, inline documentation access, task tracking within the IDE, dark theme, with abstract code structures in background',
     defaultImage: 'https://placehold.co/700x450/301A1A/FFC0C0/png?text=MemoAI+VSCode+Ext',
     titleKey: 'vscodeExtensionTitle',
     descriptionKey: 'vscodeExtensionDescription',
@@ -86,15 +86,15 @@ const getTexts = (lang: string): ProductsSectionTexts => ({
   mainSubtitle: lang === 'ar' ? 'أدوات ذكية مصممة لتعزيز إنتاجيتك وإبداعك عبر جميع منصاتك.' : 'Intelligent tools designed to boost your productivity and creativity across all your platforms.',
   products: {
     webAppTitle: lang === 'ar' ? 'تطبيق الويب MemoAI' : 'MemoAI Web App',
-    webAppDescription: lang === 'ar' ? 'وصول فوري لمعرفتك من أي متصفح. قوي، سهل الاستخدام، ومثالي للعمل والتعاون بسلاسة.' : 'Instant access to your knowledge from any browser. Powerful, intuitive, and perfect for seamless work and collaboration.',
+    webAppDescription: lang === 'ar' ? 'وصول فوري لمعرفتك من أي متصفح. يتميز بتنظيم ذكي للملاحظات، أدوات تعاون قوية، وقدرات بحث متقدمة مدعومة بالذكاء الاصطناعي. مثالي للعمل والتعاون بسلاسة.' : 'Instant access to your knowledge from any browser. Features smart note organization, powerful collaboration tools, and AI-driven advanced search. Perfect for seamless work and collaboration.',
     mobileAppTitle: lang === 'ar' ? 'تطبيق MemoAI للجوال' : 'MemoAI Mobile App',
-    mobileAppDescription: lang === 'ar' ? 'ملاحظاتك معك أينما كنت. التقط الأفكار، نظم مهامك، وابق متزامنًا بسهولة عبر جميع أجهزتك.' : 'Your notes, wherever you are. Capture ideas, organize tasks, and stay synced effortlessly across all your devices.',
+    mobileAppDescription: lang === 'ar' ? 'ملاحظاتك معك أينما كنت. يوفر التقاط سريع للأفكار، الوصول دون اتصال، والمزامنة السلسة عبر جميع أجهزتك. مصمم للإنتاجية أثناء التنقل.' : 'Your notes, wherever you are. Offers quick idea capture, offline access, and seamless cross-device synchronization. Designed for on-the-go productivity.',
     desktopAppTitle: lang === 'ar' ? 'تطبيق MemoAI لسطح المكتب' : 'MemoAI Desktop App',
-    desktopAppDescription: lang === 'ar' ? 'تجربة MemoAI الكاملة مع أداء محسن وقدرات دون اتصال. مصمم للمستخدمين المتميزين الذين يطلبون الأفضل.' : 'The ultimate MemoAI experience with enhanced performance and offline capabilities. Built for power users who demand the best.',
+    desktopAppDescription: lang === 'ar' ? 'تجربة MemoAI الكاملة مع أداء محسن وقدرات دون اتصال. يتضمن تحرير نصوص غني، مساحات عمل قابلة للتخصيص، وأدوات متقدمة للمستخدمين المتميزين الذين يطلبون الأفضل.' : 'The ultimate MemoAI experience with enhanced performance and offline capabilities. Includes rich text editing, customizable workspaces, and advanced tools for power users who demand the best.',
     browserExtensionTitle: lang === 'ar' ? 'امتداد متصفح MemoAI' : 'MemoAI Browser Extension',
-    browserExtensionDescription: lang === 'ar' ? 'احفظ المقالات والمحتوى مباشرة من الويب إلى MemoAI. أداة البحث والتجميع المثالية.' : 'Save articles and content directly from the web to MemoAI. Your perfect research and collection companion.',
+    browserExtensionDescription: lang === 'ar' ? 'احفظ المقالات والمحتوى مباشرة من الويب إلى MemoAI. يقدم تلخيص ذكي للمقالات، وضع علامات سياقية، والتكامل السلس مع تطبيق الويب. رفيقك المثالي للبحث والتجميع.' : 'Save articles and content directly from the web to MemoAI. Offers intelligent article summarization, contextual tagging, and seamless integration with the web app. Your perfect research and collection companion.',
     vscodeExtensionTitle: lang === 'ar' ? 'امتداد MemoAI لـ VS Code' : 'MemoAI VS Code Extension',
-    vscodeExtensionDescription: lang === 'ar' ? 'ادمِج قاعدة معارفك مباشرةً في بيئة التطوير. وصول سريع للمقتطفات والملاحظات أثناء الترميز.' : 'Integrate your knowledge base directly into your development environment. Quick access to snippets and notes while you code.',
+    vscodeExtensionDescription: lang === 'ar' ? 'ادمِج قاعدة معارفك مباشرةً في بيئة التطوير الخاصة بك. يوفر وصول سريع لمقتطفات التعليمات البرمجية، إدارة الملاحظات المتعلقة بالمشاريع، ومساعدة ذكية أثناء الترميز. مثالي للمطورين.' : 'Integrate your knowledge base directly into your development environment. Provides quick access to code snippets, project-related note management, and intelligent assistance while you code. Ideal for developers.',
     comingSoon: lang === 'ar' ? 'قريباً' : 'Coming Soon',
     learnMore: lang === 'ar' ? 'اعرف المزيد' : 'Learn More',
   }
@@ -149,7 +149,7 @@ const ProductsSection: FC = () => {
             <TabsContent key={product.id} value={product.id} className="outline-none ring-0">
               <Card className="overflow-hidden shadow-xl bg-card/70 backdrop-blur-md border-primary/20 animate-fadeIn">
                 <div className="grid md:grid-cols-2 items-stretch">
-                  <div className="relative aspect-video md:aspect-auto min-h-[300px] md:min-h-full">
+                  <div className="relative aspect-video md:aspect-auto min-h-[300px] md:min-h-full group">
                     <Image
                       src={product.defaultImage}
                       alt={texts.products[product.titleKey]?.title || product.titleKey}
@@ -158,7 +158,7 @@ const ProductsSection: FC = () => {
                       className="object-cover transition-transform duration-500 group-hover:scale-105"
                       data-ai-hint={product.imageHint}
                     />
-                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent md:bg-gradient-to-r rtl:md:bg-gradient-to-l"></div>
+                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent md:bg-gradient-to-r rtl:md:bg-gradient-to-l md:from-black/70 md:via-black/40 md:to-transparent"></div>
                   </div>
                   <div className={`p-6 md:p-8 lg:p-10 flex flex-col justify-center ${currentDirection === 'rtl' ? 'md:text-right' : 'md:text-left'}`}>
                     <CardHeader className="p-0 mb-4">
@@ -195,3 +195,5 @@ const ProductsSection: FC = () => {
 };
 
 export default ProductsSection;
+
+    
