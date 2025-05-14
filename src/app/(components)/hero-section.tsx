@@ -9,6 +9,7 @@ import Image from 'next/image';
 import { generateImage } from '@/ai/flows/generate-image-flow';
 import { cn } from '@/lib/utils';
 import { Sparkles } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 interface HeroTexts {
   title: string;
@@ -74,6 +75,35 @@ const HeroSection: FC = () => {
     };
   }, []);
 
+  const titleVariants = {
+    hidden: { opacity: 0 },
+    visible: { 
+      opacity: 1,
+      transition: { staggerChildren: 0.2, delayChildren: 0.1 }
+    }
+  };
+
+  const titleSpan1Variants = {
+    hidden: { y: -30, opacity: 0 },
+    visible: { y: 0, opacity: 1, transition: { duration: 0.6, ease: "easeOut" } }
+  };
+
+  const titleSpan2Variants = {
+    hidden: { y: 30, opacity: 0 },
+    visible: { y: 0, opacity: 1, transition: { duration: 0.6, ease: "easeOut" } }
+  };
+  
+  const subtitleVariants = {
+    hidden: { y: 30, opacity: 0 },
+    visible: { y: 0, opacity: 1, transition: { duration: 0.6, ease: "easeOut", delay: 0.4 } }
+  };
+
+  const buttonsVariants = {
+    hidden: { scale: 0.8, opacity: 0 },
+    visible: { scale: 1, opacity: 1, transition: { duration: 0.6, ease: "easeOut", delay: 0.7 } }
+  };
+
+
   return (
     <section 
       id="hero" 
@@ -95,36 +125,50 @@ const HeroSection: FC = () => {
       </div>
 
       {/* Content Overlay */}
-      <div className="relative z-10 container mx-auto px-4 md:px-6 animate-fadeIn">
+      <div className="relative z-10 container mx-auto px-4 md:px-6">
         <div 
           className={cn(
             "max-w-3xl text-center mx-auto",
             direction === 'rtl' ? 'md:text-right md:mr-0 md:ml-auto' : 'md:text-left md:ml-0 md:mr-auto'
           )}
         >
-          <h1 
-            className="text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl animate-fadeIn" 
-            style={{animationDelay: '0.2s', textShadow: '0px 4px 12px rgba(var(--primary-hsl), 0.5), 0 0 15px rgba(0,0,0,0.7)'}}
+          <motion.h1 
+            className="text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl" 
+            style={{ textShadow: '0px 4px 12px rgba(var(--primary-hsl), 0.5), 0 0 15px rgba(0,0,0,0.7)'}}
+            variants={titleVariants}
+            initial="hidden"
+            animate="visible"
           >
-            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-primary via-accent to-primary-foreground/80 filter brightness-125">
+            <motion.span 
+              className="block text-transparent bg-clip-text bg-gradient-to-r from-primary via-accent to-primary-foreground/80 filter brightness-125"
+              variants={titleSpan1Variants}
+            >
               {texts.title.split(': ')[0]}:
-            </span>
-            <span className="block mt-1 md:mt-2 text-primary-foreground/90">
+            </motion.span>
+            <motion.span 
+              className="block mt-1 md:mt-2 text-primary-foreground/90"
+              variants={titleSpan2Variants}
+            >
               {texts.title.split(': ')[1]}
-            </span>
-          </h1>
-          <p 
-            className="mt-6 max-w-xl text-lg text-primary-foreground/80 md:text-xl lg:text-2xl animate-fadeIn mx-auto" 
-            style={{animationDelay: '0.4s', textShadow: '0 1px 3px rgba(0,0,0,0.5)'}}
+            </motion.span>
+          </motion.h1>
+          <motion.p 
+            className="mt-6 max-w-xl text-lg text-primary-foreground/80 md:text-xl lg:text-2xl mx-auto" 
+            style={{ textShadow: '0 1px 3px rgba(0,0,0,0.5)'}}
+            variants={subtitleVariants}
+            initial="hidden"
+            animate="visible"
           >
             {texts.subtitle}
-          </p>
-          <div 
+          </motion.p>
+          <motion.div 
             className={cn(
-              "mt-10 flex flex-col gap-4 sm:flex-row sm:justify-center animate-fadeIn",
+              "mt-10 flex flex-col gap-4 sm:flex-row sm:justify-center",
               direction === 'rtl' ? 'md:justify-end' : 'md:justify-start'
             )}
-            style={{animationDelay: '0.6s'}}
+            variants={buttonsVariants}
+            initial="hidden"
+            animate="visible"
           >
             <Button 
               size="lg" 
@@ -145,7 +189,7 @@ const HeroSection: FC = () => {
             >
               <Link href="#features">{texts.learnMore}</Link>
             </Button>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>
@@ -153,4 +197,3 @@ const HeroSection: FC = () => {
 };
 
 export default HeroSection;
-
