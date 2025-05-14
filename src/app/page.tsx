@@ -1,5 +1,4 @@
 
-
 import Navbar from './(components)/navbar';
 import HeroSection from './(components)/hero-section';
 import FeatureShowcase from './(components)/feature-showcase';
@@ -10,10 +9,11 @@ import AiAssistantPreview from './(components)/ai-assistant-preview';
 import MultiLanguageSupport from './(components)/multi-language-support';
 import FaqSection from './(components)/faq-section';
 import Footer from './(components)/footer';
-import ScrollToTopButton from './(components)/scroll-to-top-button'; // Added import
+import ScrollToTopButton from './(components)/scroll-to-top-button';
 
 export default function HomePage() {
   return (
+    // Removed relative z-[1] from this div as it might not be necessary if HeroSection overflow is fixed
     <div className="flex flex-col min-h-screen bg-background">
       <Navbar />
       <main className="flex-grow">
@@ -27,7 +27,7 @@ export default function HomePage() {
         <FaqSection />
       </main>
       <Footer />
-      <ScrollToTopButton /> {/* Added component */}
+      <ScrollToTopButton />
     </div>
   );
 }

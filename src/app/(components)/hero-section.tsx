@@ -68,7 +68,7 @@ const HeroSection: FC = () => {
       }
     };
 
-    fetchHeroImage();
+    // fetchHeroImage(); // Let's disable this temporarily to rule out image loading issues affecting layout
 
     return () => {
       window.removeEventListener('directionChanged', handleDirectionChange);
@@ -107,7 +107,7 @@ const HeroSection: FC = () => {
   return (
     <section 
       id="hero" 
-      className="relative w-full h-[calc(100vh-64px)] min-h-[600px] md:min-h-[700px] lg:min-h-[800px] flex items-center justify-center overflow-hidden text-white"
+      className="relative w-full h-[calc(100vh-64px)] min-h-[600px] md:min-h-[700px] lg:min-h-[800px] flex items-center justify-center text-white" // Removed overflow-hidden
     >
       {/* Background Image */}
       <div className="absolute inset-0 z-0">

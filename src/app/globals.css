@@ -1,8 +1,7 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* Removed explicit body font-family, Tailwind will handle it via var(--font-cairo) */
 
 @layer base {
   :root {
@@ -135,12 +134,18 @@
 }
 
 /* Ensure html and body take full height for the hero section to work correctly */
-html, body, #__next, .flex.flex-col.min-h-screen {
+/* It's better to manage height on specific layout components rather than globally on html/#__next if not strictly needed */
+html, body {
   height: 100%;
+  /* Consider removing width: 100%; overflow-x: hidden; if not essential as they can sometimes complicate layouts */
 }
-.flex.flex-col.min-h-screen {
-  min-height: 100vh; /* fallback for older browsers */
+
+#__next, .flex.flex-col.min-h-screen {
+  min-height: 100vh; /* Use min-height for flexibility */
+  display: flex; /* Ensure #__next is also a flex container if its direct child is page.tsx's div */
+  flex-direction: column; /* Matches page.tsx's div */
 }
+
 main.flex-grow {
   flex-grow: 1;
 }
