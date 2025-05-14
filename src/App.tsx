@@ -17,7 +17,7 @@ import FaqSection from './app/(components)/faq-section';
 import Footer from './app/(components)/footer';
 import ScrollToTopButton from './app/(components)/scroll-to-top-button';
 
-// Removed cairoFont constant and related logic as font is now global via CSS
+// Removed AiAssistantPreview and MultiLanguageSupport imports as their functionality is in TryAISection
 
 export default function App() {
   useEffect(() => {
@@ -45,7 +45,7 @@ export default function App() {
         <HowItWorksSection />
         <UseCasesSection />
         <ProductsSection /> 
-        <TryAISection />
+        <TryAISection /> {/* This section now includes AI preview and language features */}
         <TestimonialsSection />
         <PricingSection />
         <PartnersSection />
