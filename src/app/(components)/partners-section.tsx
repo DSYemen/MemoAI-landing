@@ -3,7 +3,7 @@
 
 import type { FC } from 'react';
 import { useState, useEffect } from 'react';
-import Image from 'next/image';
+// import Image from 'next/image'; // Replaced
 import { Handshake } from 'lucide-react'; 
 
 interface Partner {
@@ -73,13 +73,14 @@ const PartnersSection: FC = () => {
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-8 items-center">
           {texts.partners.map((partner) => (
             <div key={partner.originalName} className="flex justify-center items-center p-4 animate-fadeIn group">
-              <Image
+              <img // Changed from next/image
                 src={partner.logoUrl}
                 alt={partner.name}
                 width={150}
                 height={75}
                 className="object-contain transition-transform duration-300 group-hover:scale-110 filter grayscale hover:grayscale-0 opacity-70 hover:opacity-100"
                 data-ai-hint={partner.imageHint}
+                loading="lazy"
               />
             </div>
           ))}

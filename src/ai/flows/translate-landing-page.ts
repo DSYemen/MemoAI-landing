@@ -1,5 +1,3 @@
-// src/ai/flows/translate-landing-page.ts
-'use server';
 
 /**
  * @fileOverview A translation AI agent for translating landing page content.

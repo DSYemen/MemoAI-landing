@@ -3,7 +3,7 @@
 
 import type { FC } from 'react';
 import { useState, useEffect } from 'react';
-import Image from 'next/image';
+// import Image from 'next/image'; // Replaced
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -150,13 +150,12 @@ const ProductsSection: FC = () => {
               <Card className="overflow-hidden shadow-xl bg-card/70 backdrop-blur-md border-primary/20 animate-fadeIn">
                 <div className="grid md:grid-cols-2 items-stretch">
                   <div className="relative aspect-video md:aspect-auto min-h-[300px] md:min-h-full group">
-                    <Image
+                    <img // Changed from next/image
                       src={product.defaultImage}
                       alt={texts.products[product.titleKey]?.title || product.titleKey}
-                      fill
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
                       data-ai-hint={product.imageHint}
+                      loading="lazy"
                     />
                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent md:bg-gradient-to-r rtl:md:bg-gradient-to-l md:from-black/70 md:via-black/40 md:to-transparent"></div>
                   </div>
@@ -195,5 +194,3 @@ const ProductsSection: FC = () => {
 };
 
 export default ProductsSection;
-
-    

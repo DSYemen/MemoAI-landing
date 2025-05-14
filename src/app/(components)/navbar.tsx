@@ -1,7 +1,7 @@
 
 "use client";
 
-import Link from 'next/link';
+import { Link as RouterLink } from 'react-router-dom'; // Changed import
 import { useState, useEffect, type FC, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
@@ -179,10 +179,10 @@ const Navbar: FC = () => {
 
   const handleNavLinkClick = (event: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     event.preventDefault();
-    const targetId = href.substring(1);
+    const targetId = href.substring(1); // Keep '#' for querySelector if needed, but getElementById doesn't need it
     const targetElement = document.getElementById(targetId);
     if (targetElement) {
-      const navbarHeight = 64;
+      const navbarHeight = 64; // Height of the sticky navbar
       const elementPosition = targetElement.getBoundingClientRect().top + window.scrollY;
       const offsetPosition = elementPosition - navbarHeight;
 
@@ -191,6 +191,9 @@ const Navbar: FC = () => {
         behavior: 'smooth',
       });
       setActiveSection(targetId); 
+      // For react-router-dom, if these were actual routes, you'd use navigate()
+      // but for hash links on the same page, this manual scroll is fine.
+      // window.history.pushState(null, '', href); // Optionally update URL hash without page jump
     }
     setIsMobileMenuOpen(false);
   };
@@ -236,14 +239,15 @@ const Navbar: FC = () => {
   return (
     <header className="sticky top-0 z-[60] w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-16 max-w-screen-2xl items-center justify-between px-4 md:px-6">
-        <Link href="#hero" onClick={(e) => handleNavLinkClick(e, '#hero')} className="flex items-center gap-2" prefetch={false}>
+        {/* Use <a> tag for hash links if not using react-router-dom for page navigation */}
+        <a href="#hero" onClick={(e) => handleNavLinkClick(e, '#hero')} className="flex items-center gap-2">
           <BrainCircuit className="h-7 w-7 text-primary" />
           <span className="text-xl font-bold text-foreground">{texts.memoAI}</span>
-        </Link>
+        </a>
 
         <nav className="hidden md:flex items-center gap-x-2 lg:gap-x-3 text-sm">
           {currentNavLinks.map((link) => (
-            <Link
+            <a // Changed from RouterLink to simple <a> for hash scrolling
               key={link.id}
               href={link.href}
               onClick={(e) => handleNavLinkClick(e, link.href)}
@@ -254,11 +258,10 @@ const Navbar: FC = () => {
                   ? "text-primary font-semibold bg-primary/10"
                   : "text-foreground/70 "
               )}
-              prefetch={false}
               aria-label={link.ariaLabel || link.label}
             >
               {link.label}
-            </Link>
+            </a>
           ))}
         </nav>
 
@@ -271,7 +274,7 @@ const Navbar: FC = () => {
           </Button>
           <div className="hidden md:flex items-center gap-4 ml-2">
             <Button variant="default" size="sm" asChild className="bg-accent hover:bg-accent/90 text-accent-foreground">
-              <Link href="#cta" onClick={(e) => handleNavLinkClick(e, '#cta')}>{texts.getStarted}</Link>
+              <a href="#cta" onClick={(e) => handleNavLinkClick(e, '#cta')}>{texts.getStarted}</a>
             </Button>
           </div>
 
@@ -286,13 +289,13 @@ const Navbar: FC = () => {
               </SheetTrigger>
               <SheetContent side={direction === 'rtl' ? 'left' : 'right'}>
                 <div className="grid gap-6 p-6">
-                  <Link href="#hero" onClick={(e) => handleNavLinkClick(e, '#hero')} className="flex items-center gap-2" prefetch={false}>
+                  <a href="#hero" onClick={(e) => handleNavLinkClick(e, '#hero')} className="flex items-center gap-2">
                     <BrainCircuit className="h-7 w-7 text-primary" />
                     <span className="text-xl font-bold text-foreground">{texts.memoAI}</span>
-                  </Link>
+                  </a>
                   <nav className="grid gap-4">
                     {currentNavLinks.map((link) => (
-                      <Link
+                      <a // Changed from RouterLink
                         key={link.id}
                         href={link.href}
                         onClick={(e) => handleNavLinkClick(e, link.href)}
@@ -302,11 +305,10 @@ const Navbar: FC = () => {
                               ? "text-primary font-semibold"
                               : "text-foreground/70 hover:text-primary"
                           )}
-                        prefetch={false}
                         aria-label={link.ariaLabel || link.label}
                       >
                         {link.label}
-                      </Link>
+                      </a>
                     ))}
                   </nav>
                   <div className="flex flex-col gap-2 mt-4">
@@ -319,8 +321,8 @@ const Navbar: FC = () => {
                       {texts.toggleDirection}
                       </Button>
                   </div>
-                  <Button variant="default" size="lg" asChild onClick={(e) => handleNavLinkClick(e, '#cta')} className="bg-accent hover:bg-accent/90 text-accent-foreground">
-                    <Link href="#cta">{texts.getStarted}</Link>
+                  <Button variant="default" size="lg" asChild onClick={(e) => {handleNavLinkClick(e, '#cta'); setIsMobileMenuOpen(false);}} className="bg-accent hover:bg-accent/90 text-accent-foreground">
+                    <a href="#cta">{texts.getStarted}</a>
                   </Button>
                 </div>
               </SheetContent>
@@ -333,5 +335,3 @@ const Navbar: FC = () => {
 };
 
 export default Navbar;
-
-    

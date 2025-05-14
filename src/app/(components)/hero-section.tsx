@@ -4,8 +4,8 @@
 import type { FC } from 'react';
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import Link from 'next/link';
-import Image from 'next/image';
+// import Link from 'next/link'; // Replaced
+// import Image from 'next/image'; // Replaced
 import { generateImage } from '@/ai/flows/generate-image-flow';
 import { cn } from '@/lib/utils';
 import { Sparkles } from 'lucide-react';
@@ -55,20 +55,23 @@ const HeroSection: FC = () => {
     
     const fetchHeroImage = async () => {
       try {
-        const result = await generateImage({ prompt: initialImageHint });
-        if (result.imageDataUri) {
-          setHeroImageUrl(result.imageDataUri);
-        } else {
-          console.warn("Hero image generation did not return a data URI.");
-          setHeroImageUrl("https://placehold.co/1200x800/E02020/FFFFFF/png?text=Error+Generating+Image");
-        }
+        // Simulating placeholder as image generation might be slow for immediate conversion
+        // const result = await generateImage({ prompt: initialImageHint });
+        // if (result.imageDataUri) {
+        //   setHeroImageUrl(result.imageDataUri);
+        // } else {
+        //   console.warn("Hero image generation did not return a data URI.");
+        //   setHeroImageUrl("https://placehold.co/1200x800/E02020/FFFFFF/png?text=Error+Generating+Image");
+        // }
+        setHeroImageUrl("https://placehold.co/1200x800/0A0F1E/F0F0F0/png?text=Cosmic+AI+Portal");
+
       } catch (error) {
         console.error("Failed to generate hero image:", error);
         setHeroImageUrl("https://placehold.co/1200x800/E02020/FFFFFF/png?text=Error+Generating+Image");
       }
     };
 
-    // fetchHeroImage(); // Let's disable this temporarily to rule out image loading issues affecting layout
+    fetchHeroImage();
 
     return () => {
       window.removeEventListener('directionChanged', handleDirectionChange);
@@ -107,17 +110,14 @@ const HeroSection: FC = () => {
   return (
     <section 
       id="hero" 
-      className="relative w-full h-[calc(100vh-64px)] min-h-[600px] md:min-h-[700px] lg:min-h-[800px] flex items-center justify-center text-white" // Removed overflow-hidden
+      className="relative w-full h-[calc(100vh-64px)] min-h-[600px] md:min-h-[700px] lg:min-h-[800px] flex items-center justify-center text-white"
     >
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
-        <Image 
+        <img // Changed from next/image
           src={heroImageUrl} 
           alt="Cosmic AI Portal Background" 
-          fill
-          sizes="100vw"
-          className="object-cover transition-transform duration-1000 ease-out group-hover:scale-105"
-          priority={heroImageUrl.startsWith('https://placehold.co')} 
+          className="object-cover w-full h-full transition-transform duration-1000 ease-out group-hover:scale-105"
           data-ai-hint={initialImageHint}
         />
         {/* Gradient Overlay for contrast */}
@@ -176,10 +176,10 @@ const HeroSection: FC = () => {
               className="bg-accent hover:bg-accent/90 text-accent-foreground shadow-xl transition-all hover:scale-105 hover:shadow-accent/50 animate-pulse-slow border-2 border-accent-foreground/30"
               style={{animationDuration: '3s'}}
             >
-              <Link href="#cta">
+              <a href="#cta"> {/* Changed from Link */}
                 <Sparkles className="mr-2 rtl:ml-2 rtl:mr-0 h-5 w-5" /> 
                 {texts.getStarted}
-              </Link>
+              </a>
             </Button>
             <Button 
               variant="outline" 
@@ -187,7 +187,7 @@ const HeroSection: FC = () => {
               asChild 
               className="shadow-lg transition-all hover:scale-105 border-primary-foreground/50 hover:bg-primary-foreground/10 hover:border-primary-foreground text-primary-foreground backdrop-blur-sm bg-white/5"
             >
-              <Link href="#features">{texts.learnMore}</Link>
+              <a href="#features">{texts.learnMore}</a> {/* Changed from Link */}
             </Button>
           </motion.div>
         </div>

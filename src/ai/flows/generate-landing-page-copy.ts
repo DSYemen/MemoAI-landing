@@ -1,4 +1,3 @@
-// 'use server'
 
 /**
  * @fileOverview Generates landing page copy based on a prompt.
@@ -7,8 +6,6 @@
  * - GenerateLandingPageCopyInput - The input type for the generateLandingPageCopy function.
  * - GenerateLandingPageCopyOutput - The return type for the generateLandingPageCopy function.
  */
-
-'use server';
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';

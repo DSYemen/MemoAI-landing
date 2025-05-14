@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import Image from 'next/image';
+// import Image from 'next/image'; // Replaced
 import { useToast } from "@/hooks/use-toast";
 import { summarizeFeatureDescriptions } from '@/ai/flows/summarize-feature-descriptions';
 import { translateLandingPage } from '@/ai/flows/translate-landing-page';
@@ -428,7 +428,7 @@ const TryAISection: FC = () => {
                       <div className="mt-6 p-4 border rounded-md bg-background/70 space-y-2 animate-fadeIn">
                         <h3 className="text-lg font-semibold text-primary">{texts.imageGenGeneratedImageTitle}</h3>
                         <div className="aspect-square relative w-full max-w-md mx-auto rounded-md overflow-hidden">
-                          <Image src={imageGenImageUrl} alt={texts.imageGenGeneratedImageTitle} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-contain" data-ai-hint="generated image" />
+                          <img src={imageGenImageUrl} alt={texts.imageGenGeneratedImageTitle} className="object-contain w-full h-full" data-ai-hint="generated image" />
                         </div>
                       </div>
                     )}

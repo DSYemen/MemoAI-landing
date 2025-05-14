@@ -3,8 +3,8 @@
 
 import type { FC } from 'react';
 import { useState, useEffect } from 'react';
-import Image from 'next/image';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+// import Image from 'next/image'; // Replaced
+import { Card, CardContent } from '@/components/ui/card'; // Removed CardHeader, CardTitle for this component
 import { Star, MessageSquareQuote, Users } from 'lucide-react';
 
 interface Testimonial {
@@ -99,13 +99,12 @@ const TestimonialsSection: FC = () => {
               <CardContent className={`p-6 text-center md:text-${currentDirection === 'rtl' ? 'right' : 'left'}`}>
                 <div className="flex flex-col md:flex-row items-center gap-4 mb-4">
                   <div className="relative h-20 w-20 rounded-full overflow-hidden shadow-md shrink-0">
-                    <Image
+                    <img // Changed from next/image
                       src={testimonial.imageUrl!}
                       alt={testimonial.name}
-                      fill
-                      sizes="80px"
-                      className="object-cover"
+                      className="object-cover w-full h-full"
                       data-ai-hint={testimonial.imageHint}
+                      loading="lazy"
                     />
                   </div>
                   <div className="flex-1">
@@ -135,5 +134,3 @@ const TestimonialsSection: FC = () => {
 };
 
 export default TestimonialsSection;
-
-    

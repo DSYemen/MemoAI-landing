@@ -1,4 +1,4 @@
-'use server';
+
 /**
  * @fileOverview Generates an image based on a textual prompt using Genkit.
  *

@@ -1,4 +1,4 @@
-'use server';
+
 /**
  * @fileOverview Summarizes feature descriptions of MemoAI.
  *

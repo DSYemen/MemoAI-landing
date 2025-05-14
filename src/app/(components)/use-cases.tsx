@@ -2,8 +2,8 @@
 "use client";
 import type { FC } from 'react';
 import { useState, useEffect, useCallback } from 'react';
-import Image from 'next/image';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+// import Image from 'next/image'; // Replaced
+import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { BookOpen, Briefcase, Lightbulb, Users } from 'lucide-react';
 import { generateImage } from '@/ai/flows/generate-image-flow';
 
@@ -64,8 +64,11 @@ const UseCasesSection: FC = () => {
     const updatedCasesWithImages = await Promise.all(
       baseCases.map(async (useCase) => {
         try {
-          const result = await generateImage({ prompt: useCase.imageHint });
-          return { ...useCase, imageUrl: result.imageDataUri };
+          // Simulating placeholder for now
+          // const result = await generateImage({ prompt: useCase.imageHint });
+          // return { ...useCase, imageUrl: result.imageDataUri };
+          return { ...useCase, imageUrl: `https://placehold.co/600x400/180A4B/F0F0F0/png?text=${useCase.title}` };
+
         } catch (error) {
           console.error(`Failed to generate image for ${useCase.title}:`, error);
           return { ...useCase, imageUrl: `https://placehold.co/600x400/E02020/FFFFFF/png?text=Error:${useCase.title.substring(0,8)}` };
@@ -114,13 +117,12 @@ const UseCasesSection: FC = () => {
           {useCasesContent.map((useCase, index) => (
             <Card key={index} className="overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-[1.02] bg-card group animate-fadeIn">
               <div className="relative h-56 w-full">
-                <Image
+                <img // Changed from next/image
                   src={useCase.imageUrl || `https://placehold.co/600x400.png?text=${useCase.title}`}
                   alt={`AI Generated: ${useCase.title}`}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
                   data-ai-hint={useCase.imageHint}
+                  loading="lazy"
                 />
               </div>
               <CardHeader className="flex flex-row items-start gap-3 pt-4">
