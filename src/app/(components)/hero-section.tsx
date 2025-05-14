@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import Image from 'next/image';
 import { generateImage } from '@/ai/flows/generate-image-flow';
+import { cn } from '@/lib/utils';
 
 interface HeroTexts {
   title: string;
@@ -73,17 +74,29 @@ const HeroSection: FC = () => {
   }, []); // initialImageHint is static, so no need to add to dependencies for re-fetching
 
   return (
-    <section id="hero" className="w-full py-20 md:py-32 lg:py-40 bg-gradient-to-br from-primary/10 via-background to-accent/5">
+    <section id="hero" className="w-full py-20 md:py-32 lg:py-40 bg-gradient-to-br from-primary/10 via-background to-accent/5 overflow-hidden">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="grid gap-10 md:grid-cols-2 md:items-center">
-          <div className={`space-y-6 text-center ${direction === 'rtl' ? 'md:text-right' : 'md:text-left'}`}>
-            <h1 className="text-4xl font-bold tracking-tight text-primary sm:text-5xl md:text-6xl lg:text-7xl">
+        <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
+          <div 
+            className={cn(
+              "space-y-8 text-center lg:text-left bg-background/60 backdrop-blur-md p-6 md:p-10 rounded-xl shadow-2xl animate-fadeIn",
+              "border border-primary/20",
+              direction === 'rtl' ? 'lg:text-right' : 'lg:text-left'
+            )}
+          >
+            <h1 className="text-4xl font-bold tracking-tight text-primary sm:text-5xl md:text-6xl lg:text-7xl animate-fadeIn" style={{animationDelay: '0.2s'}}>
               {texts.title}
             </h1>
-            <p className="text-lg text-foreground/80 md:text-xl lg:text-2xl">
+            <p className="text-lg text-foreground/80 md:text-xl lg:text-2xl animate-fadeIn" style={{animationDelay: '0.4s'}}>
               {texts.subtitle}
             </p>
-            <div className={`flex flex-col gap-4 sm:flex-row sm:justify-center ${direction === 'rtl' ? 'md:justify-end' : 'md:justify-start'}`}>
+            <div 
+              className={cn(
+                "flex flex-col gap-4 sm:flex-row sm:justify-center animate-fadeIn",
+                direction === 'rtl' ? 'lg:justify-end' : 'lg:justify-start'
+              )}
+              style={{animationDelay: '0.6s'}}
+            >
               <Button size="lg" asChild className="bg-accent hover:bg-accent/90 text-accent-foreground shadow-lg transition-transform hover:scale-105">
                 <Link href="#cta">{texts.getStarted}</Link>
               </Button>
@@ -92,7 +105,7 @@ const HeroSection: FC = () => {
               </Button>
             </div>
           </div>
-          <div className="relative aspect-video overflow-hidden rounded-xl shadow-2xl group animate-fadeIn">
+          <div className="relative aspect-video lg:aspect-[16/10] overflow-hidden rounded-xl shadow-2xl group animate-fadeIn order-first lg:order-last">
              <Image 
               src={heroImageUrl} 
               alt="AI Generated MemoAI Interface Preview" 
@@ -102,6 +115,7 @@ const HeroSection: FC = () => {
               priority={heroImageUrl.startsWith('https://placehold.co')} 
               data-ai-hint={initialImageHint}
             />
+             <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent opacity-50 group-hover:opacity-75 transition-opacity duration-300"></div>
           </div>
         </div>
       </div>
