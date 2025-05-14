@@ -8,6 +8,9 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
+      // Attempt to provide a minimal polyfill or mock for async_hooks
+      // This is speculative and might not fully work depending on Genkit's usage.
+      'node:async_hooks': path.resolve(__dirname, './src/lib/node-async-hooks-stub.ts'),
     },
   },
   server: {
