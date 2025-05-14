@@ -1,11 +1,7 @@
 
-"use client";
-
 import type { FC } from 'react';
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-// import Link from 'next/link'; // Replaced
-// import Image from 'next/image'; // Replaced
 import { generateImage } from '@/ai/flows/generate-image-flow';
 import { cn } from '@/lib/utils';
 import { Sparkles } from 'lucide-react';
@@ -55,7 +51,6 @@ const HeroSection: FC = () => {
     
     const fetchHeroImage = async () => {
       try {
-        // Simulating placeholder as image generation might be slow for immediate conversion
         // const result = await generateImage({ prompt: initialImageHint });
         // if (result.imageDataUri) {
         //   setHeroImageUrl(result.imageDataUri);
@@ -106,25 +101,36 @@ const HeroSection: FC = () => {
     visible: { scale: 1, opacity: 1, transition: { duration: 0.6, ease: "easeOut", delay: 0.7 } }
   };
 
+  const handleNavLinkClick = (event: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (href.startsWith('#')) {
+        event.preventDefault();
+        const targetId = href.substring(1);
+        const targetElement = document.getElementById(targetId);
+        if (targetElement) {
+            const navbarHeight = 64; 
+            const elementPosition = targetElement.getBoundingClientRect().top + window.scrollY;
+            const offsetPosition = elementPosition - navbarHeight;
+            window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+        }
+    }
+  };
+
 
   return (
     <section 
       id="hero" 
       className="relative w-full h-[calc(100vh-64px)] min-h-[600px] md:min-h-[700px] lg:min-h-[800px] flex items-center justify-center text-white"
     >
-      {/* Background Image */}
       <div className="absolute inset-0 z-0">
-        <img // Changed from next/image
+        <img 
           src={heroImageUrl} 
           alt="Cosmic AI Portal Background" 
           className="object-cover w-full h-full transition-transform duration-1000 ease-out group-hover:scale-105"
           data-ai-hint={initialImageHint}
         />
-        {/* Gradient Overlay for contrast */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/50 to-black/70 md:bg-gradient-to-r rtl:md:bg-gradient-to-l md:from-black/70 md:via-black/40 md:to-transparent"></div>
       </div>
 
-      {/* Content Overlay */}
       <div className="relative z-10 container mx-auto px-4 md:px-6">
         <div 
           className={cn(
@@ -153,7 +159,7 @@ const HeroSection: FC = () => {
             </motion.span>
           </motion.h1>
           <motion.p 
-            className="mt-6 max-w-xl text-lg text-primary-foreground/80 md:text-xl lg:text-2xl mx-auto" 
+            className="mt-6 max-w-xl text-lg text-primary-foreground/80 md:text-xl lg:text-2xl mx-auto md:mx-0" 
             style={{ textShadow: '0 1px 3px rgba(0,0,0,0.5)'}}
             variants={subtitleVariants}
             initial="hidden"
@@ -176,7 +182,7 @@ const HeroSection: FC = () => {
               className="bg-accent hover:bg-accent/90 text-accent-foreground shadow-xl transition-all hover:scale-105 hover:shadow-accent/50 animate-pulse-slow border-2 border-accent-foreground/30"
               style={{animationDuration: '3s'}}
             >
-              <a href="#cta"> {/* Changed from Link */}
+              <a href="#cta" onClick={(e) => handleNavLinkClick(e, '#cta')}>
                 <Sparkles className="mr-2 rtl:ml-2 rtl:mr-0 h-5 w-5" /> 
                 {texts.getStarted}
               </a>
@@ -187,7 +193,7 @@ const HeroSection: FC = () => {
               asChild 
               className="shadow-lg transition-all hover:scale-105 border-primary-foreground/50 hover:bg-primary-foreground/10 hover:border-primary-foreground text-primary-foreground backdrop-blur-sm bg-white/5"
             >
-              <a href="#features">{texts.learnMore}</a> {/* Changed from Link */}
+              <a href="#features" onClick={(e) => handleNavLinkClick(e, '#features')}>{texts.learnMore}</a>
             </Button>
           </motion.div>
         </div>

@@ -1,6 +1,4 @@
 
-"use client";
-
 import type { FC } from 'react';
 // This component is effectively replaced by TryAISection's second tab.
 // It can be deleted or kept for reference if needed.
@@ -12,5 +10,3 @@ const MultiLanguageSupport: FC = () => {
 };
 
 export default MultiLanguageSupport;
-
-    

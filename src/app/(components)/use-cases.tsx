@@ -1,8 +1,6 @@
 
-"use client";
 import type { FC } from 'react';
 import { useState, useEffect, useCallback } from 'react';
-// import Image from 'next/image'; // Replaced
 import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { BookOpen, Briefcase, Lightbulb, Users } from 'lucide-react';
 import { generateImage } from '@/ai/flows/generate-image-flow';
@@ -67,11 +65,11 @@ const UseCasesSection: FC = () => {
           // Simulating placeholder for now
           // const result = await generateImage({ prompt: useCase.imageHint });
           // return { ...useCase, imageUrl: result.imageDataUri };
-          return { ...useCase, imageUrl: `https://placehold.co/600x400/180A4B/F0F0F0/png?text=${useCase.title}` };
+          return { ...useCase, imageUrl: `https://placehold.co/600x400/180A4B/F0F0F0/png?text=${encodeURIComponent(useCase.title)}` };
 
         } catch (error) {
           console.error(`Failed to generate image for ${useCase.title}:`, error);
-          return { ...useCase, imageUrl: `https://placehold.co/600x400/E02020/FFFFFF/png?text=Error:${useCase.title.substring(0,8)}` };
+          return { ...useCase, imageUrl: `https://placehold.co/600x400/E02020/FFFFFF/png?text=Error:${encodeURIComponent(useCase.title.substring(0,8))}` };
         }
       })
     );
@@ -88,7 +86,7 @@ const UseCasesSection: FC = () => {
     });
     fetchAndSetImages(lang);
 
-    const handleDirectionChange = () => {
+    const handleDirectionChangeInternal = () => {
       const newDirection = document.documentElement.dir || 'ltr';
       const newLang = newDirection === 'rtl' ? 'ar' : 'en';
       setTexts({
@@ -98,8 +96,8 @@ const UseCasesSection: FC = () => {
       fetchAndSetImages(newLang);
     };
     
-    window.addEventListener('directionChanged', handleDirectionChange);
-    return () => window.removeEventListener('directionChanged', handleDirectionChange);
+    window.addEventListener('directionChanged', handleDirectionChangeInternal);
+    return () => window.removeEventListener('directionChanged', handleDirectionChangeInternal);
   }, [fetchAndSetImages]);
 
   return (
@@ -117,8 +115,8 @@ const UseCasesSection: FC = () => {
           {useCasesContent.map((useCase, index) => (
             <Card key={index} className="overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-[1.02] bg-card group animate-fadeIn">
               <div className="relative h-56 w-full">
-                <img // Changed from next/image
-                  src={useCase.imageUrl || `https://placehold.co/600x400.png?text=${useCase.title}`}
+                <img
+                  src={useCase.imageUrl || `https://placehold.co/600x400.png?text=${encodeURIComponent(useCase.title)}`}
                   alt={`AI Generated: ${useCase.title}`}
                   className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
                   data-ai-hint={useCase.imageHint}

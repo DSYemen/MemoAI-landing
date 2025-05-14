@@ -1,6 +1,4 @@
 
-"use client";
-
 import type { FC } from 'react';
 // This component is effectively replaced by TryAISection's first tab.
 // It can be deleted or kept for reference if needed.
@@ -12,5 +10,3 @@ const AiAssistantPreview: FC = () => {
 };
 
 export default AiAssistantPreview;
-
-    

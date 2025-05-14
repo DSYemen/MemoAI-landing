@@ -1,9 +1,6 @@
 
-"use client";
-
 import type { FC } from 'react';
 import { useState, useEffect } from 'react';
-// import Image from 'next/image'; // Replaced
 import { Building } from 'lucide-react';
 
 interface Client {
@@ -73,7 +70,7 @@ const FeaturedClientsSection: FC = () => {
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 gap-x-8 gap-y-10 items-center max-w-4xl mx-auto">
           {texts.clients.map((client) => (
             <div key={client.originalName} className="flex justify-center items-center p-4 animate-fadeIn group">
-              <img // Changed from next/image
+              <img
                 src={client.logoUrl}
                 alt={client.name}
                 width={160}

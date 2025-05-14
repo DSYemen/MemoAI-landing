@@ -1,6 +1,4 @@
 
-"use client";
-
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowUp } from 'lucide-react';
@@ -32,7 +30,6 @@ const ScrollToTopButton: React.FC = () => {
   useEffect(() => {
     if (!isMounted) return;
     window.addEventListener('scroll', toggleVisibility);
-    // Set initial state
     toggleVisibility();
     return () => {
       window.removeEventListener('scroll', toggleVisibility);
@@ -40,7 +37,7 @@ const ScrollToTopButton: React.FC = () => {
   }, [isMounted]);
 
   if (!isMounted) {
-    return null; // Don't render on server or before client mount
+    return null;
   }
 
   return (

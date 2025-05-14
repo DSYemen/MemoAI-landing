@@ -1,12 +1,9 @@
 
-"use client";
-
 import type { FC } from 'react';
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
-import { CheckCircle, DollarSign, Zap, Users, ShieldCheck } from 'lucide-react';
-import Link from 'next/link';
+import { CheckCircle, DollarSign, Zap, Users, ShieldCheck, Languages as LucideLanguages } from 'lucide-react'; // Changed Languages to LucideLanguages
 import { cn } from '@/lib/utils';
 
 interface PricingPlanFeature {
@@ -72,7 +69,7 @@ const getFeatureDetails = (lang: string): { [key: string]: Omit<PricingPlanFeatu
   communitySupport: { text: lang === 'ar' ? 'دعم عبر المجتمع' : 'Community Support', iconName: 'Users' },
   advancedOrg: { text: lang === 'ar' ? 'تنظيم متقدم للملاحظات (وسوم، مجلدات ذكية)' : 'Advanced Note Organization (Tags, Smart Folders)', iconName: 'CheckCircle' },
   fullAi: { text: lang === 'ar' ? 'وصول كامل لميزات الذكاء الاصطناعي (تلخيص، ترجمة، إنشاء صور)' : 'Full AI Feature Access (Summarize, Translate, Image Gen)', iconName: 'Zap' },
-  multiLanguage: { text: lang === 'ar' ? 'دعم متعدد اللغات متكامل' : 'Full Multi-language Support', iconName: 'Languages' },
+  multiLanguage: { text: lang === 'ar' ? 'دعم متعدد اللغات متكامل' : 'Full Multi-language Support', iconName: 'LucideLanguages' },
   prioritySupport: { text: lang === 'ar' ? 'دعم فني ذو أولوية' : 'Priority Support', iconName: 'CheckCircle' },
   collaboration: { text: lang === 'ar' ? 'أدوات تعاون أساسية' : 'Basic Collaboration Tools', iconName: 'Users' },
   allPro: { text: lang === 'ar' ? 'جميع ميزات الخطة الاحترافية' : 'All Pro Plan Features', iconName: 'CheckCircle' },
@@ -83,7 +80,7 @@ const getFeatureDetails = (lang: string): { [key: string]: Omit<PricingPlanFeatu
 });
 
 const iconMap: { [key: string]: FC<any> } = {
-  CheckCircle, Zap, Users, ShieldCheck, Languages: CheckCircle // Temp fix for languages icon, assuming it's a feature check
+  CheckCircle, Zap, Users, ShieldCheck, LucideLanguages
 };
 
 
@@ -131,6 +128,21 @@ const PricingSection: FC = () => {
     window.addEventListener('directionChanged', handleDirectionChange);
     return () => window.removeEventListener('directionChanged', handleDirectionChange);
   }, []);
+
+  const handleNavLinkClick = (event: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (href.startsWith('#')) {
+        event.preventDefault();
+        const targetId = href.substring(1);
+        const targetElement = document.getElementById(targetId);
+        if (targetElement) {
+            const navbarHeight = 64; 
+            const elementPosition = targetElement.getBoundingClientRect().top + window.scrollY;
+            const offsetPosition = elementPosition - navbarHeight;
+            window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+        }
+    }
+    // For external links (mailto:), default behavior is fine
+  };
 
   return (
     <section id="pricing" className="w-full py-20 md:py-28 lg:py-32 bg-gradient-to-tl from-muted via-background to-primary/5">
@@ -185,7 +197,7 @@ const PricingSection: FC = () => {
                     plan.isPopular ? "bg-accent hover:bg-accent/90 text-accent-foreground" : "bg-primary hover:bg-primary/90 text-primary-foreground"
                   )}
                 >
-                  <Link href={plan.ctaLink}>{plan.ctaText}</Link>
+                  <a href={plan.ctaLink} onClick={(e) => handleNavLinkClick(e, plan.ctaLink)}>{plan.ctaText}</a>
                 </Button>
               </CardFooter>
             </Card>
@@ -197,5 +209,3 @@ const PricingSection: FC = () => {
 };
 
 export default PricingSection;
-
-    

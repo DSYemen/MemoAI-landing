@@ -1,7 +1,5 @@
 
-"use client";
-
-import { Link as RouterLink } from 'react-router-dom'; // Changed import
+import { Link as RouterLink } from 'react-router-dom';
 import { useState, useEffect, type FC, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
@@ -12,7 +10,7 @@ interface NavLink {
   href: string;
   label: string;
   ariaLabel?: string;
-  id: string; // Section ID without '#'
+  id: string;
 }
 
 const getNavLinks = (lang: string): NavLink[] => [
@@ -179,10 +177,10 @@ const Navbar: FC = () => {
 
   const handleNavLinkClick = (event: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     event.preventDefault();
-    const targetId = href.substring(1); // Keep '#' for querySelector if needed, but getElementById doesn't need it
+    const targetId = href.substring(1);
     const targetElement = document.getElementById(targetId);
     if (targetElement) {
-      const navbarHeight = 64; // Height of the sticky navbar
+      const navbarHeight = 64;
       const elementPosition = targetElement.getBoundingClientRect().top + window.scrollY;
       const offsetPosition = elementPosition - navbarHeight;
 
@@ -191,9 +189,7 @@ const Navbar: FC = () => {
         behavior: 'smooth',
       });
       setActiveSection(targetId); 
-      // For react-router-dom, if these were actual routes, you'd use navigate()
-      // but for hash links on the same page, this manual scroll is fine.
-      // window.history.pushState(null, '', href); // Optionally update URL hash without page jump
+      // window.history.pushState(null, '', href); 
     }
     setIsMobileMenuOpen(false);
   };
@@ -239,7 +235,6 @@ const Navbar: FC = () => {
   return (
     <header className="sticky top-0 z-[60] w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-16 max-w-screen-2xl items-center justify-between px-4 md:px-6">
-        {/* Use <a> tag for hash links if not using react-router-dom for page navigation */}
         <a href="#hero" onClick={(e) => handleNavLinkClick(e, '#hero')} className="flex items-center gap-2">
           <BrainCircuit className="h-7 w-7 text-primary" />
           <span className="text-xl font-bold text-foreground">{texts.memoAI}</span>
@@ -247,7 +242,7 @@ const Navbar: FC = () => {
 
         <nav className="hidden md:flex items-center gap-x-2 lg:gap-x-3 text-sm">
           {currentNavLinks.map((link) => (
-            <a // Changed from RouterLink to simple <a> for hash scrolling
+            <a 
               key={link.id}
               href={link.href}
               onClick={(e) => handleNavLinkClick(e, link.href)}
@@ -295,7 +290,7 @@ const Navbar: FC = () => {
                   </a>
                   <nav className="grid gap-4">
                     {currentNavLinks.map((link) => (
-                      <a // Changed from RouterLink
+                      <a 
                         key={link.id}
                         href={link.href}
                         onClick={(e) => handleNavLinkClick(e, link.href)}

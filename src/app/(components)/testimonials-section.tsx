@@ -1,10 +1,7 @@
 
-"use client";
-
 import type { FC } from 'react';
 import { useState, useEffect } from 'react';
-// import Image from 'next/image'; // Replaced
-import { Card, CardContent } from '@/components/ui/card'; // Removed CardHeader, CardTitle for this component
+import { Card, CardContent } from '@/components/ui/card';
 import { Star, MessageSquareQuote, Users } from 'lucide-react';
 
 interface Testimonial {
@@ -12,7 +9,7 @@ interface Testimonial {
   title: string;
   company?: string;
   imageHint: string;
-  imageUrl?: string; // Optional, can be placeholder
+  imageUrl?: string;
   rating: number;
   quote: string;
 }
@@ -99,7 +96,7 @@ const TestimonialsSection: FC = () => {
               <CardContent className={`p-6 text-center md:text-${currentDirection === 'rtl' ? 'right' : 'left'}`}>
                 <div className="flex flex-col md:flex-row items-center gap-4 mb-4">
                   <div className="relative h-20 w-20 rounded-full overflow-hidden shadow-md shrink-0">
-                    <img // Changed from next/image
+                    <img
                       src={testimonial.imageUrl!}
                       alt={testimonial.name}
                       className="object-cover w-full h-full"

@@ -34,10 +34,10 @@ const generateImageFlow = ai.defineFlow(
   },
   async (input) => {
     const {media} = await ai.generate({
-      model: 'googleai/gemini-2.0-flash-exp', // IMPORTANT: Specific model for image generation
+      model: 'googleai/gemini-2.0-flash-exp', 
       prompt: input.prompt,
       config: {
-        responseModalities: ['TEXT', 'IMAGE'], // MUST provide both TEXT and IMAGE
+        responseModalities: ['TEXT', 'IMAGE'], 
       },
     });
 

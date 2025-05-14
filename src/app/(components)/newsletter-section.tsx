@@ -1,6 +1,4 @@
 
-"use client";
-
 import type { FC } from 'react';
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
@@ -76,15 +74,12 @@ const NewsletterSection: FC = () => {
       });
       return;
     }
-    // Simulate API call
     console.log('Subscribing email:', email);
-    // You would typically make an API call here to subscribe the user
-    // For demo purposes, we'll just show a success message
     toast({
       title: texts.successTitle,
       description: texts.successDescription(email),
     });
-    setEmail(''); // Reset email input
+    setEmail('');
   };
 
   return (
@@ -120,5 +115,3 @@ const NewsletterSection: FC = () => {
 };
 
 export default NewsletterSection;
-
-    

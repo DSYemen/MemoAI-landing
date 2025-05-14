@@ -1,14 +1,11 @@
 
-"use client";
-
 import type { FC } from 'react';
 import { useState, useEffect } from 'react';
-// import Image from 'next/image'; // Replaced
 import { Handshake } from 'lucide-react'; 
 
 interface Partner {
-  originalName: string; // To be used for unique key
-  name: string; // Display name, can be translated
+  originalName: string;
+  name: string;
   logoUrl: string; 
   imageHint: string;
 }
@@ -19,7 +16,7 @@ interface PartnersSectionTexts {
   partners: Partner[];
 }
 
-const getBasePartners = (): Omit<Partner, 'name'>[] => [ // Returns base structure without translated name initially
+const getBasePartners = (): Omit<Partner, 'name'>[] => [
   { originalName: 'Tech Innovators Inc.', logoUrl: 'https://placehold.co/150x75/FFFFFF/1A093D/png?text=Partner+A', imageHint: 'modern tech company logo blue' },
   { originalName: 'Global Solutions Ltd.', logoUrl: 'https://placehold.co/150x75/FFFFFF/0D1B3E/png?text=Partner+B', imageHint: 'global solutions logo globe' },
   { originalName: 'AI Pioneers Co.', logoUrl: 'https://placehold.co/150x75/FFFFFF/102A2A/png?text=Partner+C', imageHint: 'ai pioneers logo brain' },
@@ -32,7 +29,7 @@ const PartnersSection: FC = () => {
   const [texts, setTexts] = useState<PartnersSectionTexts>({
     mainTitle: 'Our Valued Partners',
     mainSubtitle: 'Collaborating with leading organizations to drive innovation and deliver exceptional value.',
-    partners: getBasePartners().map(p => ({...p, name: p.originalName})), // Initialize with originalName as name
+    partners: getBasePartners().map(p => ({...p, name: p.originalName})),
   });
    const [currentDirection, setCurrentDirection] = useState('ltr');
 
@@ -42,7 +39,7 @@ const PartnersSection: FC = () => {
       setCurrentDirection(dir);
       const lang = dir === 'rtl' ? 'ar' : 'en';
       
-      const basePartners = getBasePartners(); // Get base partners with originalName
+      const basePartners = getBasePartners();
 
       setTexts({
         mainTitle: lang === 'ar' ? 'شركاؤنا الكرام' : 'Our Valued Partners',
@@ -73,7 +70,7 @@ const PartnersSection: FC = () => {
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-8 items-center">
           {texts.partners.map((partner) => (
             <div key={partner.originalName} className="flex justify-center items-center p-4 animate-fadeIn group">
-              <img // Changed from next/image
+              <img
                 src={partner.logoUrl}
                 alt={partner.name}
                 width={150}

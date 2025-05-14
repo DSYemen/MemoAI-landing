@@ -1,6 +1,4 @@
 
-"use client";
-
 import type { FC } from 'react';
 import { useState, useEffect } from 'react';
 import FeatureCard from './feature-card';

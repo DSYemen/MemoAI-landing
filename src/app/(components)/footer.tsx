@@ -1,10 +1,8 @@
 
-"use client";
-
 import type { FC } from 'react';
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { BrainCircuit, Github, Twitter, Linkedin, Mail, Phone } from 'lucide-react'; // Added Mail and Phone
+import { Link as RouterLink } from 'react-router-dom';
+import { BrainCircuit, Github, Twitter, Linkedin, Mail, Phone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface FooterTexts {
@@ -19,7 +17,7 @@ interface FooterTexts {
   legalLinks: { label: string; href: string }[];
   contactLinksTitle: string;
   contactEmail: string;
-  contactPhone?: string; // Optional
+  contactPhone?: string;
   socialMediaTitle: string;
   allRightsReserved: (year: number) => string;
 }
@@ -49,7 +47,6 @@ const getFooterTexts = (lang: string): FooterTexts => {
     legalLinks: commonLegalLinks.map(link => ({ label: lang === 'ar' ? link.arLabel : link.defaultLabel, href: link.href })),
     contactLinksTitle: lang === 'ar' ? 'تواصل معنا' : 'Contact Us',
     contactEmail: 'info@memoai.app',
-    // contactPhone: lang === 'ar' ? '+١ (٥٥٥) ١٢٣-٤٥٦٧' : '+1 (555) 123-4567', // Example, can be omitted
     socialMediaTitle: lang === 'ar' ? 'تابعنا' : 'Follow Us',
     allRightsReserved: (year) => lang === 'ar' ? `© ${year} شركة ميمو AI. جميع الحقوق محفوظة.` : `© ${year} MemoAI Inc. All rights reserved.`,
   };
@@ -73,60 +70,70 @@ const Footer: FC = () => {
     return () => window.removeEventListener('directionChanged', handleDirectionChange);
   }, []);
 
+  const handleNavLinkClick = (event: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (href.startsWith('#')) {
+      event.preventDefault();
+      const targetId = href.substring(1);
+      const targetElement = document.getElementById(targetId);
+      if (targetElement) {
+        const navbarHeight = 64; 
+        const elementPosition = targetElement.getBoundingClientRect().top + window.scrollY;
+        const offsetPosition = elementPosition - navbarHeight;
+        window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+      }
+    }
+    // For RouterLink, react-router-dom handles navigation
+  };
+
 
   return (
     <footer id="cta" className="w-full pt-16 md:pt-24 pb-8 bg-muted border-t border-border/50">
       <div className="container mx-auto px-4 md:px-6">
-        {/* CTA Section within Footer */}
         <div className="max-w-2xl mx-auto mb-16 text-center animate-fadeIn">
           <h3 className="text-3xl font-bold text-primary mb-3 sm:text-4xl">{texts.ctaTitle}</h3>
           <p className="text-foreground/80 mb-8 text-lg">
             {texts.ctaSubtitle}
           </p>
           <Button size="lg" asChild className="bg-accent hover:bg-accent/90 text-accent-foreground shadow-xl transition-transform hover:scale-105 animate-pulse-slow border-2 border-accent-foreground/30" style={{ animationDuration: '3s' }}>
-            <Link href="#">{texts.ctaButton}</Link>
+            <a href="#cta" onClick={(e) => handleNavLinkClick(e, '#cta')}>{texts.ctaButton}</a>
           </Button>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 md:gap-12 mb-12 text-center md:text-left">
-          {/* Brand Info */}
           <div className="space-y-4">
-            <Link href="/" className="inline-flex items-center justify-center md:justify-start">
+            <RouterLink to="/" className="inline-flex items-center justify-center md:justify-start">
               <BrainCircuit className="h-8 w-8 text-primary" />
               <span className={`ml-3 text-2xl font-bold tracking-wide text-foreground ${currentDirection === 'rtl' ? 'mr-3 ml-0' : 'ml-3'}`}>{texts.brandName}</span>
-            </Link>
+            </RouterLink>
             <p className="text-sm text-foreground/70">{texts.brandSlogan}</p>
           </div>
 
-          {/* Quick Links */}
           <div className="space-y-3">
             <h4 className="text-lg font-semibold text-primary mb-2">{texts.navLinksTitle}</h4>
             <ul className="space-y-2">
               {texts.navLinks.map(link => (
                 <li key={link.label}>
-                  <Link href={link.href} className="text-sm text-foreground/70 transition-colors duration-300 hover:text-accent hover:underline">
+                  <a href={link.href} onClick={(e) => handleNavLinkClick(e, link.href)} className="text-sm text-foreground/70 transition-colors duration-300 hover:text-accent hover:underline">
                     {link.label}
-                  </Link>
+                  </a>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Legal Links */}
           <div className="space-y-3">
             <h4 className="text-lg font-semibold text-primary mb-2">{texts.legalLinksTitle}</h4>
             <ul className="space-y-2">
               {texts.legalLinks.map(link => (
                 <li key={link.label}>
-                  <Link href={link.href} className="text-sm text-foreground/70 transition-colors duration-300 hover:text-accent hover:underline">
+                  <a href={link.href} className="text-sm text-foreground/70 transition-colors duration-300 hover:text-accent hover:underline">
                     {link.label}
-                  </Link>
+                  </a>
                 </li>
               ))}
             </ul>
           </div>
           
-          {/* Contact & Social */}
           <div className="space-y-3">
             <h4 className="text-lg font-semibold text-primary mb-2">{texts.contactLinksTitle}</h4>
             <ul className="space-y-2">
@@ -169,5 +176,3 @@ const Footer: FC = () => {
 };
 
 export default Footer;
-
-    

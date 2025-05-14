@@ -1,9 +1,6 @@
 
-"use client";
-
 import type { FC } from 'react';
 import { useState, useEffect } from 'react';
-// import Image from 'next/image'; // Replaced
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -86,15 +83,15 @@ const getTexts = (lang: string): ProductsSectionTexts => ({
   mainSubtitle: lang === 'ar' ? 'أدوات ذكية مصممة لتعزيز إنتاجيتك وإبداعك عبر جميع منصاتك.' : 'Intelligent tools designed to boost your productivity and creativity across all your platforms.',
   products: {
     webAppTitle: lang === 'ar' ? 'تطبيق الويب MemoAI' : 'MemoAI Web App',
-    webAppDescription: lang === 'ar' ? 'وصول فوري لمعرفتك من أي متصفح. يتميز بتنظيم ذكي للملاحظات، أدوات تعاون قوية، وقدرات بحث متقدمة مدعومة بالذكاء الاصطناعي. مثالي للعمل والتعاون بسلاسة.' : 'Instant access to your knowledge from any browser. Features smart note organization, powerful collaboration tools, and AI-driven advanced search. Perfect for seamless work and collaboration.',
+    webAppDescription: lang === 'ar' ? 'وصول فوري لمعرفتك من أي متصفح. يتميز بتنظيم ذكي للملاحظات، أدوات تعاون قوية، وقدرات بحث متقدمة مدعومة بالذكاء الاصطناعي. مثالي للعمل والتعاون بسلاسة.\nمميزات رئيسية:\n- مزامنة سحابية فورية\n- واجهة مستخدم سهلة وقابلة للتخصيص\n- أدوات تحرير نصوص متقدمة مع دعم ماركداون\n- بحث ذكي باللغة الطبيعية' : 'Instant access to your knowledge from any browser. Features smart note organization, powerful collaboration tools, and AI-driven advanced search. Perfect for seamless work and collaboration.\nKey Features:\n- Real-time cloud synchronization\n- Intuitive and customizable user interface\n- Advanced text editing with Markdown support\n- AI-powered natural language search',
     mobileAppTitle: lang === 'ar' ? 'تطبيق MemoAI للجوال' : 'MemoAI Mobile App',
-    mobileAppDescription: lang === 'ar' ? 'ملاحظاتك معك أينما كنت. يوفر التقاط سريع للأفكار، الوصول دون اتصال، والمزامنة السلسة عبر جميع أجهزتك. مصمم للإنتاجية أثناء التنقل.' : 'Your notes, wherever you are. Offers quick idea capture, offline access, and seamless cross-device synchronization. Designed for on-the-go productivity.',
+    mobileAppDescription: lang === 'ar' ? 'ملاحظاتك معك أينما كنت. يوفر التقاط سريع للأفكار، الوصول دون اتصال، والمزامنة السلسة عبر جميع أجهزتك. مصمم للإنتاجية أثناء التنقل.\nمميزات رئيسية:\n- الوصول دون اتصال بالإنترنت\n- أدوات التقاط سريعة (صوت، صور، نص)\n- إشعارات وتذكيرات ذكية\n- واجهة محسنة للمس' : 'Your notes, wherever you are. Offers quick idea capture, offline access, and seamless cross-device synchronization. Designed for on-the-go productivity.\nKey Features:\n- Offline access to your notes\n- Quick capture widgets (voice, image, text)\n- Smart notifications and reminders\n- Touch-optimized interface',
     desktopAppTitle: lang === 'ar' ? 'تطبيق MemoAI لسطح المكتب' : 'MemoAI Desktop App',
-    desktopAppDescription: lang === 'ar' ? 'تجربة MemoAI الكاملة مع أداء محسن وقدرات دون اتصال. يتضمن تحرير نصوص غني، مساحات عمل قابلة للتخصيص، وأدوات متقدمة للمستخدمين المتميزين الذين يطلبون الأفضل.' : 'The ultimate MemoAI experience with enhanced performance and offline capabilities. Includes rich text editing, customizable workspaces, and advanced tools for power users who demand the best.',
+    desktopAppDescription: lang === 'ar' ? 'تجربة MemoAI الكاملة مع أداء محسن وقدرات دون اتصال. يتضمن تحرير نصوص غني، مساحات عمل قابلة للتخصيص، وأدوات متقدمة للمستخدمين المتميزين الذين يطلبون الأفضل.\nمميزات رئيسية:\n- أداء أصلي محسن\n- وصول كامل دون اتصال بالإنترنت\n- مساحات عمل متعددة وإدارة نوافذ\n- تكامل مع أدوات سطح المكتب الأخرى' : 'The ultimate MemoAI experience with enhanced performance and offline capabilities. Includes rich text editing, customizable workspaces, and advanced tools for power users who demand the best.\nKey Features:\n- Enhanced native performance\n- Full offline access and capabilities\n- Multiple workspaces and window management\n- Integration with other desktop tools',
     browserExtensionTitle: lang === 'ar' ? 'امتداد متصفح MemoAI' : 'MemoAI Browser Extension',
-    browserExtensionDescription: lang === 'ar' ? 'احفظ المقالات والمحتوى مباشرة من الويب إلى MemoAI. يقدم تلخيص ذكي للمقالات، وضع علامات سياقية، والتكامل السلس مع تطبيق الويب. رفيقك المثالي للبحث والتجميع.' : 'Save articles and content directly from the web to MemoAI. Offers intelligent article summarization, contextual tagging, and seamless integration with the web app. Your perfect research and collection companion.',
+    browserExtensionDescription: lang === 'ar' ? 'احفظ المقالات والمحتوى مباشرة من الويب إلى MemoAI. يقدم تلخيص ذكي للمقالات، وضع علامات سياقية، والتكامل السلس مع تطبيق الويب. رفيقك المثالي للبحث والتجميع.\nمميزات رئيسية:\n- حفظ صفحات الويب والمقالات بنقرة واحدة\n- تلخيص ذكي للمحتوى المحفوظ\n- إضافة ملاحظات سريعة أثناء التصفح\n- تكامل سلس مع تطبيق الويب' : 'Save articles and content directly from the web to MemoAI. Offers intelligent article summarization, contextual tagging, and seamless integration with the web app. Your perfect research and collection companion.\nKey Features:\n- One-click web page and article saving\n- AI-powered summarization of clipped content\n- Quick notes and annotations while browsing\n- Seamless integration with the MemoAI web app',
     vscodeExtensionTitle: lang === 'ar' ? 'امتداد MemoAI لـ VS Code' : 'MemoAI VS Code Extension',
-    vscodeExtensionDescription: lang === 'ar' ? 'ادمِج قاعدة معارفك مباشرةً في بيئة التطوير الخاصة بك. يوفر وصول سريع لمقتطفات التعليمات البرمجية، إدارة الملاحظات المتعلقة بالمشاريع، ومساعدة ذكية أثناء الترميز. مثالي للمطورين.' : 'Integrate your knowledge base directly into your development environment. Provides quick access to code snippets, project-related note management, and intelligent assistance while you code. Ideal for developers.',
+    vscodeExtensionDescription: lang === 'ar' ? 'ادمِج قاعدة معارفك مباشرةً في بيئة التطوير الخاصة بك. يوفر وصول سريع لمقتطفات التعليمات البرمجية، إدارة الملاحظات المتعلقة بالمشاريع، ومساعدة ذكية أثناء الترميز. مثالي للمطورين.\nمميزات رئيسية:\n- إدارة مقتطفات التعليمات البرمجية والملاحظات داخل VS Code\n- بحث ذكي في قاعدة معارفك من المحرر\n- ربط الملاحظات بملفات ومشاريع محددة\n- اقتراحات ذكية بناءً على سياق الكود' : 'Integrate your knowledge base directly into your development environment. Provides quick access to code snippets, project-related note management, and intelligent assistance while you code. Ideal for developers.\nKey Features:\n- Manage code snippets and notes within VS Code\n- AI-powered search of your knowledge base from the editor\n- Link notes to specific files and projects\n- Intelligent suggestions based on code context',
     comingSoon: lang === 'ar' ? 'قريباً' : 'Coming Soon',
     learnMore: lang === 'ar' ? 'اعرف المزيد' : 'Learn More',
   }
@@ -150,7 +147,7 @@ const ProductsSection: FC = () => {
               <Card className="overflow-hidden shadow-xl bg-card/70 backdrop-blur-md border-primary/20 animate-fadeIn">
                 <div className="grid md:grid-cols-2 items-stretch">
                   <div className="relative aspect-video md:aspect-auto min-h-[300px] md:min-h-full group">
-                    <img // Changed from next/image
+                    <img
                       src={product.defaultImage}
                       alt={texts.products[product.titleKey]?.title || product.titleKey}
                       className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
@@ -165,7 +162,7 @@ const ProductsSection: FC = () => {
                          <product.icon className="h-7 w-7" />
                         {texts.products[product.titleKey]?.title}
                       </CardTitle>
-                      <CardDescription className="text-base sm:text-lg text-foreground/80 leading-relaxed">
+                      <CardDescription className="text-base sm:text-lg text-foreground/80 leading-relaxed whitespace-pre-line">
                         {texts.products[product.descriptionKey]?.description}
                       </CardDescription>
                     </CardHeader>

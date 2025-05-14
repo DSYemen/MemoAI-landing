@@ -1,6 +1,4 @@
 
-"use client";
-
 import type { FC } from 'react';
 import { useState, useTransition, useEffect, useCallback } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -9,7 +7,6 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-// import Image from 'next/image'; // Replaced
 import { useToast } from "@/hooks/use-toast";
 import { summarizeFeatureDescriptions } from '@/ai/flows/summarize-feature-descriptions';
 import { translateLandingPage } from '@/ai/flows/translate-landing-page';
@@ -56,7 +53,6 @@ interface TryAITexts {
       formDescription: string;
     };
   };
-  // Text Analyzer specific
   analyzerTextareaPlaceholder: string;
   analyzerButtonText: string;
   analyzerButtonProcessingText: string;
@@ -67,7 +63,6 @@ interface TryAITexts {
   analyzerAnalysisCompleteDescription: string;
   analyzerErrorTitle: string;
   analyzerErrorDescription: string;
-  // Translator specific
   translatorTextareaPlaceholder: string;
   translatorSelectPlaceholder: string;
   translatorButtonText: string;
@@ -81,7 +76,6 @@ interface TryAITexts {
   translatorTranslationCompleteDescription: (lang: string) => string;
   translatorErrorTitle: string;
   translatorErrorDescription: string;
-  // Image Generator specific
   imageGenInputPlaceholder: string;
   imageGenButtonText: string;
   imageGenButtonGeneratingText: string;
@@ -162,18 +156,15 @@ const TryAISection: FC = () => {
   const [currentDirection, setCurrentDirection] = useState('ltr');
   const { toast } = useToast();
 
-  // Text Analyzer State
   const [analyzerInputText, setAnalyzerInputText] = useState<string>('');
   const [analyzerSummary, setAnalyzerSummary] = useState<string | null>(null);
   const [isAnalyzerPending, startAnalyzerTransition] = useTransition();
 
-  // Translator State
   const [translatorInputText, setTranslatorInputText] = useState<string>('');
   const [translatorTargetLanguage, setTranslatorTargetLanguage] = useState<string>(targetLanguages[0].value);
   const [translatorTranslatedText, setTranslatorTranslatedText] = useState<string | null>(null);
   const [isTranslatorPending, startTranslatorTransition] = useTransition();
 
-  // Image Generator State
   const [imageGenPrompt, setImageGenPrompt] = useState<string>('');
   const [imageGenImageUrl, setImageGenImageUrl] = useState<string | null>(null);
   const [isImageGenPending, startImageGenTransition] = useTransition();
@@ -283,7 +274,6 @@ const TryAISection: FC = () => {
             ))}
           </TabsList>
 
-          {/* Text Analyzer Tab Content */}
           <TabsContent value={tabDetails[0].id} className="outline-none ring-0">
             <Card className="overflow-hidden shadow-xl bg-card/80 backdrop-blur-md border-primary/20 animate-fadeIn">
               <div className="grid md:grid-cols-2 items-start">
@@ -330,7 +320,6 @@ const TryAISection: FC = () => {
             </Card>
           </TabsContent>
 
-          {/* Translator Tab Content */}
           <TabsContent value={tabDetails[1].id} className="outline-none ring-0">
             <Card className="overflow-hidden shadow-xl bg-card/80 backdrop-blur-md border-primary/20 animate-fadeIn">
               <div className="grid md:grid-cols-2 items-start">
@@ -389,7 +378,6 @@ const TryAISection: FC = () => {
             </Card>
           </TabsContent>
 
-          {/* Image Generator Tab Content */}
           <TabsContent value={tabDetails[2].id} className="outline-none ring-0">
             <Card className="overflow-hidden shadow-xl bg-card/80 backdrop-blur-md border-primary/20 animate-fadeIn">
               <div className="grid md:grid-cols-2 items-start">
