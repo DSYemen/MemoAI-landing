@@ -1,4 +1,3 @@
-
 import type { FC } from 'react';
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
@@ -29,7 +28,7 @@ interface PricingSectionTexts {
   popularBadge: string;
 }
 
-const getBasePlans = (lang: string): Omit<PricingPlan, 'features'> & { featureKeys: string[] }[] => [
+const getBasePlans = (lang: string): (Omit<PricingPlan, 'features'> & { featureKeys: string[] })[] => [
   {
     id: 'free',
     name: lang === 'ar' ? 'الخطة المجانية' : 'Free Plan',
@@ -39,6 +38,7 @@ const getBasePlans = (lang: string): Omit<PricingPlan, 'features'> & { featureKe
     featureKeys: ['basicOrg', 'limitedAi', 'communitySupport'],
     ctaText: lang === 'ar' ? 'ابدأ مجانًا' : 'Get Started Free',
     ctaLink: '#cta',
+    isPopular: false,
   },
   {
     id: 'pro',
@@ -55,11 +55,12 @@ const getBasePlans = (lang: string): Omit<PricingPlan, 'features'> & { featureKe
     id: 'enterprise',
     name: lang === 'ar' ? 'خطة الشركات' : 'Enterprise Plan',
     price: lang === 'ar' ? 'مخصص' : 'Custom',
-    period: lang === 'ar' ? '' : '',
+    period: '',
     description: lang === 'ar' ? 'حلول مخصصة للفرق والمؤسسات الكبيرة التي تحتاج إلى أمان متقدم ودعم مخصص.' : 'Tailored solutions for large teams and organizations needing advanced security and dedicated support.',
     featureKeys: ['allPro', 'advancedSecurity', 'dedicatedSupport', 'customIntegrations', 'sla'],
     ctaText: lang === 'ar' ? 'تواصل مع المبيعات' : 'Contact Sales',
     ctaLink: 'mailto:sales@memoai.app',
+    isPopular: false,
   },
 ];
 
@@ -83,48 +84,50 @@ const iconMap: { [key: string]: FC<any> } = {
   CheckCircle, Zap, Users, ShieldCheck, LucideLanguages
 };
 
-
 const PricingSection: FC = () => {
   const [texts, setTexts] = useState<PricingSectionTexts>(() => {
-    const lang = 'en';
+    const lang: string = 'en';
     const basePlans = getBasePlans(lang);
     const featureDetails = getFeatureDetails(lang);
     return {
       mainTitle: lang === 'ar' ? 'خطط أسعار مرنة تناسب احتياجاتك' : 'Flexible Pricing Plans for Your Needs',
       mainSubtitle: lang === 'ar' ? 'اختر الخطة التي تمكنك من تحقيق أقصى استفادة من MemoAI، سواء كنت مستخدمًا فرديًا أو فريقًا كبيرًا.' : 'Choose the plan that empowers you to get the most out of MemoAI, whether you\'re an individual or a large team.',
-      plans: basePlans.map(plan => ({
-        ...plan,
-        features: plan.featureKeys.map(key => ({
-          text: featureDetails[key].text,
-          icon: iconMap[featureDetails[key].iconName] || CheckCircle,
-        }))
-      })),
+      plans: basePlans.map(plan => {
+        const { featureKeys, ...rest } = plan;
+        return {
+          ...rest,
+          features: plan.featureKeys.map(key => ({
+            text: featureDetails[key].text,
+            icon: iconMap[featureDetails[key].iconName] || CheckCircle,
+          })),
+        };
+      }),
       popularBadge: lang === 'ar' ? 'الأكثر شيوعًا' : 'Most Popular',
     };
   });
-  const [currentDirection, setCurrentDirection] = useState('ltr');
 
   useEffect(() => {
     const handleDirectionChange = () => {
       const dir = document.documentElement.dir || 'ltr';
-      setCurrentDirection(dir);
-      const lang = dir === 'rtl' ? 'ar' : 'en';
+      const lang: string = dir === 'rtl' ? 'ar' : 'en';
       const basePlans = getBasePlans(lang);
       const featureDetails = getFeatureDetails(lang);
       setTexts({
         mainTitle: lang === 'ar' ? 'خطط أسعار مرنة تناسب احتياجاتك' : 'Flexible Pricing Plans for Your Needs',
         mainSubtitle: lang === 'ar' ? 'اختر الخطة التي تمكنك من تحقيق أقصى استفادة من MemoAI، سواء كنت مستخدمًا فرديًا أو فريقًا كبيرًا.' : 'Choose the plan that empowers you to get the most out of MemoAI, whether you\'re an individual or a large team.',
-        plans: basePlans.map(plan => ({
-          ...plan,
-          features: plan.featureKeys.map(key => ({
-            text: featureDetails[key].text,
-            icon: iconMap[featureDetails[key].iconName] || CheckCircle,
-          }))
-        })),
+        plans: basePlans.map(plan => {
+          const { featureKeys, ...rest } = plan;
+          return {
+            ...rest,
+            features: plan.featureKeys.map(key => ({
+              text: featureDetails[key].text,
+              icon: iconMap[featureDetails[key].iconName] || CheckCircle,
+            })),
+          };
+        }),
         popularBadge: lang === 'ar' ? 'الأكثر شيوعًا' : 'Most Popular',
       });
     };
-    handleDirectionChange();
     window.addEventListener('directionChanged', handleDirectionChange);
     return () => window.removeEventListener('directionChanged', handleDirectionChange);
   }, []);

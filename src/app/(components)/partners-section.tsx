@@ -1,4 +1,3 @@
-
 import type { FC } from 'react';
 import { useState, useEffect } from 'react';
 import { Handshake } from 'lucide-react'; 
@@ -31,12 +30,10 @@ const PartnersSection: FC = () => {
     mainSubtitle: 'Collaborating with leading organizations to drive innovation and deliver exceptional value.',
     partners: getBasePartners().map(p => ({...p, name: p.originalName})),
   });
-   const [currentDirection, setCurrentDirection] = useState('ltr');
 
   useEffect(() => {
     const handleDirectionChange = () => {
       const dir = document.documentElement.dir || 'ltr';
-      setCurrentDirection(dir);
       const lang = dir === 'rtl' ? 'ar' : 'en';
       
       const basePartners = getBasePartners();

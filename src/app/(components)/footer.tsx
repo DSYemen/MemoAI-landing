@@ -37,7 +37,7 @@ const getFooterTexts = (lang: string): FooterTexts => {
 
   return {
     brandName: lang === 'ar' ? 'ميمو AI' : 'MemoAI',
-    brandSlogan: lang === 'ar' ? 'بوابتك الكونية للذكاء.' : 'Your Cosmic Gateway to Intelligence.',
+    brandSlogan: lang === 'ar' ? 'ذاكرتك الرقمية الثانية المدعومة بالذكاء الإصطناعي.' : 'Your AI-powered second digitl memory.',
     ctaTitle: lang === 'ar' ? 'هل أنت مستعد لتحويل ملاحظاتك؟' : 'Ready to Transform Your Notes?',
     ctaSubtitle: lang === 'ar' ? 'انضم إلى آلاف المستخدمين الذين يستفيدون بالفعل من قوة الذكاء الاصطناعي.' : 'Join thousands of users already leveraging the power of AI.',
     ctaButton: lang === 'ar' ? 'سجل في النسخة التجريبية' : 'Sign Up for Free Beta',
@@ -46,7 +46,8 @@ const getFooterTexts = (lang: string): FooterTexts => {
     legalLinksTitle: lang === 'ar' ? 'قانوني' : 'Legal',
     legalLinks: commonLegalLinks.map(link => ({ label: lang === 'ar' ? link.arLabel : link.defaultLabel, href: link.href })),
     contactLinksTitle: lang === 'ar' ? 'تواصل معنا' : 'Contact Us',
-    contactEmail: 'info@memoai.app',
+    contactEmail: 'AhmedAlmaghz@gmail.com',
+    contactPhone: '00967777781844',
     socialMediaTitle: lang === 'ar' ? 'تابعنا' : 'Follow Us',
     allRightsReserved: (year) => lang === 'ar' ? `© ${year} شركة ميمو AI. جميع الحقوق محفوظة.` : `© ${year} MemoAI Inc. All rights reserved.`,
   };

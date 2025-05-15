@@ -1,4 +1,3 @@
-
 import type { FC } from 'react';
 import { useState, useEffect } from 'react';
 import { Building } from 'lucide-react';
@@ -31,28 +30,21 @@ const FeaturedClientsSection: FC = () => {
     mainSubtitle: 'Join a growing community of innovative businesses leveraging MemoAI to achieve their goals.',
     clients: getBaseClients().map(c => ({ ...c, name: c.originalName })),
   });
-  const [currentDirection, setCurrentDirection] = useState('ltr');
 
   useEffect(() => {
-    const handleDirectionChange = () => {
-      const dir = document.documentElement.dir || 'ltr';
-      setCurrentDirection(dir);
-      const lang = dir === 'rtl' ? 'ar' : 'en';
-      
-      const baseClients = getBaseClients();
+    const dir = document.documentElement.dir || 'ltr';
+    const lang = dir === 'rtl' ? 'ar' : 'en';
+    
+    const baseClients = getBaseClients();
 
-      setTexts({
-        mainTitle: lang === 'ar' ? 'يثق بنا كبرى الشركات' : 'Trusted by Leading Companies',
-        mainSubtitle: lang === 'ar' ? 'انضم إلى مجتمع متنامٍ من الشركات المبتكرة التي تستفيد من MemoAI لتحقيق أهدافها.' : 'Join a growing community of innovative businesses leveraging MemoAI to achieve their goals.',
-        clients: baseClients.map(c => ({
-          ...c,
-          name: lang === 'ar' ? `عميل ${c.originalName.split(" ")[1]?.charAt(0) || c.originalName.charAt(0) || 'X'}` : c.originalName
-        })),
-      });
-    };
-    handleDirectionChange();
-    window.addEventListener('directionChanged', handleDirectionChange);
-    return () => window.removeEventListener('directionChanged', handleDirectionChange);
+    setTexts({
+      mainTitle: lang === 'ar' ? 'يثق بنا كبرى الشركات' : 'Trusted by Leading Companies',
+      mainSubtitle: lang === 'ar' ? 'انضم إلى مجتمع متنامٍ من الشركات المبتكرة التي تستفيد من MemoAI لتحقيق أهدافها.' : 'Join a growing community of innovative businesses leveraging MemoAI to achieve their goals.',
+      clients: baseClients.map(c => ({
+        ...c,
+        name: lang === 'ar' ? `عميل ${c.originalName.split(" ")[1]?.charAt(0) || c.originalName.charAt(0) || 'X'}` : c.originalName
+      })),
+    });
   }, []);
 
   return (

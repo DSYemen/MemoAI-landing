@@ -1,8 +1,6 @@
-
 import type { FC } from 'react';
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { generateImage } from '@/ai/flows/generate-image-flow';
 import { cn } from '@/lib/utils';
 import { Sparkles } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -16,13 +14,14 @@ interface HeroTexts {
 
 const HeroSection: FC = () => {
   const [texts, setTexts] = useState<HeroTexts>({
-    title: 'MemoAI: Your Intelligent Knowledge Hub',
+    title: 'MemoAI: Your AI-powered second digital memory',
     subtitle: 'Capture, connect, and create with the power of AI. Transform your notes into actionable insights and unlock your full potential.',
     getStarted: 'Get Started Free',
     learnMore: 'Learn More',
   });
   const [direction, setDirection] = useState('ltr');
-  const [heroImageUrl, setHeroImageUrl] = useState<string>("https://placehold.co/1200x800/0A0F1E/F0F0F0/png?text=Loading+Cosmic+AI+Portal...");
+  // const [heroImageUrl] = useState<string>("https://github.com/MaghzAI/MemoAI-landing/blob/raect/public/image/hero.jpeg");
+  // const [heroImageUrl, setHeroImageUrl] = useState<string>("https://github.com/MaghzAI/MemoAI-landing/blob/raect/public/image/hero.jpg?raw=true");
   const initialImageHint = "expansive cosmic vista, nebulae, distant galaxies, with a subtle overlay of abstract AI neural network patterns, digital art, cinematic, breathtaking";
 
   useEffect(() => {
@@ -31,14 +30,14 @@ const HeroSection: FC = () => {
       setDirection(currentDirection);
       if (currentDirection === 'rtl') {
         setTexts({
-          title: 'MemoAI: بوابتك الكونية للذكاء',
+          title: 'MemoAI: ذاكرتك الرقمية الثانية المدعومة بالذكاء الاصطناعي',
           subtitle: 'التقط، تواصل، وأبدع بقوة الذكاء الاصطناعي. حوّل ملاحظاتك إلى رؤى فعالة واكتشف أقصى إمكاناتك.',
           getStarted: 'ابدأ التجربة مجانًا',
           learnMore: 'اكتشف المزيد',
         });
       } else {
         setTexts({
-          title: 'MemoAI: Your Intelligent Knowledge Hub',
+          title: 'MemoAI: Your AI-powered second digital memory',
           subtitle: 'Capture, connect, and create with the power of AI. Transform your notes into actionable insights and unlock your full potential.',
           getStarted: 'Get Started Free',
           learnMore: 'Learn More',
@@ -49,24 +48,24 @@ const HeroSection: FC = () => {
     handleDirectionChange();
     window.addEventListener('directionChanged', handleDirectionChange);
     
-    const fetchHeroImage = async () => {
-      try {
-        // const result = await generateImage({ prompt: initialImageHint });
-        // if (result.imageDataUri) {
-        //   setHeroImageUrl(result.imageDataUri);
-        // } else {
-        //   console.warn("Hero image generation did not return a data URI.");
-        //   setHeroImageUrl("https://placehold.co/1200x800/E02020/FFFFFF/png?text=Error+Generating+Image");
-        // }
-        setHeroImageUrl("https://placehold.co/1200x800/0A0F1E/F0F0F0/png?text=Cosmic+AI+Portal");
+    // const fetchHeroImage = async () => {
+    //   try {
+    //     // const result = await generateImage({ prompt: initialImageHint });
+    //     // if (result.imageDataUri) {
+    //     //   setHeroImageUrl(result.imageDataUri);
+    //     // } else {
+    //     //   console.warn("Hero image generation did not return a data URI.");
+    //     //   setHeroImageUrl("https://placehold.co/1200x800/E02020/FFFFFF/png?text=Error+Generating+Image");
+    //     // }
+    //     // setHeroImageUrl("https://placehold.co/1200x800/0A0F1E/F0F0F0/png?text=Cosmic+AI+Portal");
 
-      } catch (error) {
-        console.error("Failed to generate hero image:", error);
-        setHeroImageUrl("https://placehold.co/1200x800/E02020/FFFFFF/png?text=Error+Generating+Image");
-      }
-    };
+    //   } catch (error) {
+    //     console.error("Failed to generate hero image:", error);
+    //     setHeroImageUrl("https://placehold.co/1200x800/E02020/FFFFFF/png?text=Error+Generating+Image");
+    //   }
+    // };
 
-    fetchHeroImage();
+    // fetchHeroImage();
 
     return () => {
       window.removeEventListener('directionChanged', handleDirectionChange);
@@ -123,8 +122,9 @@ const HeroSection: FC = () => {
     >
       <div className="absolute inset-0 z-0">
         <img 
-          src={heroImageUrl} 
-          alt="Cosmic AI Portal Background" 
+          src="https://github.com/MaghzAI/MemoAI-landing/blob/raect/public/image/hero.jpeg" 
+          // src={heroImageUrl} 
+          // alt="Cosmic AI Portal Background" 
           className="object-cover w-full h-full transition-transform duration-1000 ease-out group-hover:scale-105"
           data-ai-hint={initialImageHint}
         />
@@ -152,7 +152,7 @@ const HeroSection: FC = () => {
               {texts.title.split(': ')[0]}:
             </motion.span>
             <motion.span 
-              className="block mt-1 md:mt-2 text-primary-foreground/90"
+              className="block mt-1 md:mt-2 text-transparent bg-clip-text bg-gradient-to-l from-primary via-accent to-primary-foreground/80 filter brightness-125"
               variants={titleSpan2Variants}
             >
               {texts.title.split(': ')[1]}

@@ -1,5 +1,3 @@
-
-import { Link as RouterLink } from 'react-router-dom';
 import { useState, useEffect, type FC, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
@@ -19,7 +17,7 @@ const getNavLinks = (lang: string): NavLink[] => [
   { href: '#how-it-works', id: 'how-it-works', label: lang === 'ar' ? 'كيف يعمل' : 'How It Works' },
   { href: '#use-cases', id: 'use-cases', label: lang === 'ar' ? 'حالات الاستخدام' : 'Use Cases' },
   { href: '#products', id: 'products', label: lang === 'ar' ? 'المنتجات' : 'Products' },
-  { href: '#try-ai', id: 'try-ai', label: lang === 'ar' ? 'جرب AI' : 'Try AI' },
+  // { href: '#try-ai', id: 'try-ai', label: lang === 'ar' ? 'جرب AI' : 'Try AI' },
   { href: '#testimonials', id: 'testimonials', label: lang === 'ar' ? 'الشهادات' : 'Testimonials' },
   { href: '#pricing', id: 'pricing', label: lang === 'ar' ? 'الأسعار' : 'Pricing' },
   { href: '#faq', id: 'faq', label: lang === 'ar' ? 'الأسئلة الشائعة' : 'FAQ' },
@@ -89,17 +87,17 @@ const Navbar: FC = () => {
   useEffect(() => {
     if (!mounted) return;
 
-    const sectionElements = currentNavLinks
+    const sectionElements: HTMLElement[] = currentNavLinks
       .map(link => document.getElementById(link.id))
-      .filter(el => el !== null) as HTMLElement[];
+      .filter((el): el is HTMLElement => el !== null);
 
     if (sectionElements.length === 0) return;
     
-    const observerCallback = (entries: IntersectionObserverEntry[]) => {
+    const observerCallback: IntersectionObserverCallback = (entries: IntersectionObserverEntry[]) => {
         let currentActive: string | null = null;
         let highestVisibleEntry: IntersectionObserverEntry | null = null;
 
-        entries.forEach(entry => {
+        entries.forEach((entry) => {
             if (entry.isIntersecting) {
                 if (!highestVisibleEntry || entry.boundingClientRect.top < highestVisibleEntry.boundingClientRect.top) {
                     highestVisibleEntry = entry;
@@ -108,7 +106,8 @@ const Navbar: FC = () => {
         });
 
         if (highestVisibleEntry) {
-            currentActive = highestVisibleEntry.target.id;
+            const entry = highestVisibleEntry as unknown as IntersectionObserverEntry;
+            currentActive = (entry.target as HTMLElement).id;
         } else {
             const scrollY = window.scrollY;
             const windowHeight = window.innerHeight;
@@ -316,8 +315,10 @@ const Navbar: FC = () => {
                       {texts.toggleDirection}
                       </Button>
                   </div>
-                  <Button variant="default" size="lg" asChild onClick={(e) => {handleNavLinkClick(e, '#cta'); setIsMobileMenuOpen(false);}} className="bg-accent hover:bg-accent/90 text-accent-foreground">
-                    <a href="#cta">{texts.getStarted}</a>
+                  <Button variant="default" size="lg" asChild className="bg-accent hover:bg-accent/90 text-accent-foreground">
+                    <a href="#cta" onClick={(e) => {handleNavLinkClick(e, '#cta'); setIsMobileMenuOpen(false);}}>
+                      {texts.getStarted}
+                    </a>
                   </Button>
                 </div>
               </SheetContent>

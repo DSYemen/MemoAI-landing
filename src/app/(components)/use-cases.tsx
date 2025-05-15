@@ -1,9 +1,7 @@
-
 import type { FC } from 'react';
 import { useState, useEffect, useCallback } from 'react';
 import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { BookOpen, Briefcase, Lightbulb, Users } from 'lucide-react';
-import { generateImage } from '@/ai/flows/generate-image-flow';
 
 interface UseCaseContent {
   icon: FC<any>;
